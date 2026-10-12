@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hecho a la medida · Guías para construir herramientas con IA</title>
+<meta name="description" content="Cuatro guías técnicas, gratis, para construir herramientas propias con IA sin ser programador: diseño, que la IA no invente, automatización y mantenimiento.">
+<meta name="author" content="Jonathan Rodríguez">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hecho a la medida · Guías para construir herramientas con IA">
+<meta property="og:description" content="Cuatro guías técnicas, gratis, para construir herramientas propias con IA sin ser programador: diseño, que la IA no invente, automatización y mantenimiento.">
+<meta property="og:url" content="https://jpaulrodriguez.github.io/hecho-a-la-medida/">
+<meta property="og:image" content="https://jpaulrodriguez.github.io/hecho-a-la-medida/img/og.png">
+<meta property="og:locale" content="es_CO">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+:root { --fondo:#F3EFE6; --tinta:#1B1B19; --acento:#E4572E; --suave:#E8E0CF; --gris:#6E6A61; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fondo); color: var(--tinta);
+  font: 17px/1.6 "Avenir Next", Avenir, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+.envoltura { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+header { background: var(--tinta); color: var(--fondo); padding: 72px 0 64px; }
+header .raya { width: 64px; height: 7px; background: var(--acento); margin-bottom: 28px; }
+.serie { font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--suave); margin: 0 0 10px; }
+h1 { font-weight: 800; font-size: clamp(36px, 6vw, 60px); line-height: 1.04; margin: 0 0 18px; max-width: 16ch; }
+header p.lead { font-size: clamp(18px, 2.4vw, 22px); color: var(--suave); max-width: 40ch; margin: 0; }
+main { padding: 56px 0 24px; }
+.intro { max-width: 62ch; margin: 0 0 48px; }
+.guia { display: grid; grid-template-columns: 220px 1fr; gap: 32px; padding: 36px 0; border-top: 1px solid #d9d0be; }
+.tapa img { width: 100%; height: auto; display: block; box-shadow: 0 10px 30px rgba(0,0,0,.18); transition: transform .2s ease; }
+.tapa:hover img { transform: translateY(-3px); }
+.num { color: var(--acento); font-weight: 600; font-size: 14px; letter-spacing: .08em; text-transform: uppercase; margin: 0 0 6px; }
+h2 { font-weight: 800; font-size: 28px; line-height: 1.15; margin: 0 0 8px; }
+.sub { color: var(--gris); margin: 0 0 12px; }
+.btn { display: inline-block; margin-top: 8px; background: var(--tinta); color: var(--fondo); text-decoration: none;
+  padding: 12px 20px; border-radius: 6px; font-weight: 600; }
+.btn span { font-weight: 400; color: var(--suave); }
+.btn:hover { background: var(--acento); }
+.btn:focus-visible, .tapa:focus-visible { outline: 3px solid var(--acento); outline-offset: 3px; }
+.nota { background: var(--suave); border-left: 5px solid var(--acento); padding: 18px 22px; margin: 40px 0; max-width: 70ch; }
+footer { padding: 32px 0 56px; color: var(--gris); font-size: 15px; border-top: 1px solid #d9d0be; }
+@media (max-width: 640px) {
+  .guia { grid-template-columns: 1fr; gap: 20px; }
+  .tapa img { max-width: 220px; }
+  header { padding: 48px 0 40px; }
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="envoltura">
+    <div class="raya"></div>
+    <p class="serie">Hecho a la medida · Guías técnicas</p>
+    <h1>Construir herramientas con IA, sin ser programador</h1>
+    <p class="lead">Cuatro guías gratuitas para pasar de «uso la IA en el chat» a «tengo una herramienta que hace parte de mi trabajo como yo lo haría».</p>
+  </div>
+</header>
+<main class="envoltura">
+  <div class="intro">
+    <p>La mayoría de herramientas con IA que fracasan no fracasan por la IA: fracasan porque nadie las diseñó. Estas guías son lo que he aprendido construyendo herramientas en proyectos reales de estrategia y marketing, muchas veces a las malas.</p>
+    <p>Las cuatro siguen un mismo ejemplo de principio a fin (una tienda de café ficticia que recibe 300 reseñas al mes) y traen prompts completos, fórmulas de hoja de cálculo, código corto explicado línea por línea, cuentas de costo, plantillas y listas de verificación. Se pueden leer por separado, pero rinden más en orden.</p>
+  </div>
+  
+      <article class="guia">
+        <a class="tapa" href="guias/guia-01-disena-tu-primera-herramienta.pdf"><img src="img/portada-01.png" alt="Portada de la guía 01: Diseña tu primera herramienta con IA antes de construirla" width="306" height="396" loading="lazy"></a>
+        <div class="txt">
+          <p class="num">Guía 01 · 19 páginas</p>
+          <h2>Diseña tu primera herramienta con IA antes de construirla</h2>
+          <p class="sub">7 pasos, un ejemplo completo de principio a fin, plantillas para copiar y las cuentas de cuánto cuesta.</p>
+          <p>Los 7 pasos de diseño antes de construir: si vale la pena, partir la tarea en piezas, cerrar la salida, separar lo que propone la IA de lo que decide una regla, set dorado, filtros y costo por uso.</p>
+          <a class="btn" href="guias/guia-01-disena-tu-primera-herramienta.pdf" download>Descargar PDF <span>(0.1 MB)</span></a>
+        </div>
+      </article>
+      <article class="guia">
+        <a class="tapa" href="guias/guia-02-que-la-ia-no-invente.pdf"><img src="img/portada-02.png" alt="Portada de la guía 02: Que la IA no invente" width="306" height="396" loading="lazy"></a>
+        <div class="txt">
+          <p class="num">Guía 02 · 21 páginas</p>
+          <h2>Que la IA no invente</h2>
+          <p class="sub">Listas cerradas, salidas verificables, set dorado y filtros a fondo. Cómo pasar de «se ve bien» a «lo puedo demostrar».</p>
+          <p>Listas cerradas con definiciones, salidas verificables con esquema y reintento, verificadores de cifras y citas, set dorado con matriz de confusión y seis familias de filtros.</p>
+          <a class="btn" href="guias/guia-02-que-la-ia-no-invente.pdf" download>Descargar PDF <span>(0.1 MB)</span></a>
+        </div>
+      </article>
+      <article class="guia">
+        <a class="tapa" href="guias/guia-03-que-corra-solo.pdf"><img src="img/portada-03.png" alt="Portada de la guía 03: Que corra solo sin perder el control" width="306" height="396" loading="lazy"></a>
+        <div class="txt">
+          <p class="num">Guía 03 · 22 páginas</p>
+          <h2>Que corra solo sin perder el control</h2>
+          <p class="sub">Agentes y automatización para quien no es programador: orquestar pasos, poner topes, programar corridas, auditar y cambiar sin romper.</p>
+          <p>Orquestar pasos, semáforo de permisos, topes de gasto en código, programar corridas, agentes por frente, crítico de cambios y cómo cambiar sin romper.</p>
+          <a class="btn" href="guias/guia-03-que-corra-solo.pdf" download>Descargar PDF <span>(0.1 MB)</span></a>
+        </div>
+      </article>
+      <article class="guia">
+        <a class="tapa" href="guias/guia-04-entregar-y-mantener.pdf"><img src="img/portada-04.png" alt="Portada de la guía 04: Entregar y mantener sin sustos" width="306" height="396" loading="lazy"></a>
+        <div class="txt">
+          <p class="num">Guía 04 · 20 páginas</p>
+          <h2>Entregar y mantener sin sustos</h2>
+          <p class="sub">Cuánto cuesta de verdad, claves que no se filtran, publicar sin abrir grifos ni pisar lo publicado, y auditar lo que ya está andando.</p>
+          <p>Costo real, claves que no se filtran, publicar sin abrir grifos ni pisar lo publicado, mantenimiento, auditoría y la ficha de una página de toda herramienta.</p>
+          <a class="btn" href="guias/guia-04-entregar-y-mantener.pdf" download>Descargar PDF <span>(0.1 MB)</span></a>
+        </div>
+      </article>
+  <div class="nota">
+    <p><strong>De dónde sale esto.</strong> No vengo de la tecnología; vengo de la estrategia. Todo lo de estas guías lo he aplicado en herramientas reales. Los ejemplos y sus números son ficticios, y los precios de los servicios cambian: revísalos el día que hagas tu cuenta. Si alguien de ingeniería haría algo distinto, me sirve que me lo diga.</p>
+  </div>
+</main>
+<footer>
+  <div class="envoltura">
+    <p>Jonathan Rodríguez · Bogotá · Si estas guías te sirven, guárdalas y pásaselas a alguien que esté a punto de construir su primera herramienta.</p>
+  </div>
+</footer>
+</body>
+</html>
