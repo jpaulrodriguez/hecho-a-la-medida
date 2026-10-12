@@ -2,9 +2,11 @@
 # ─────────────────────────────────────────────────────────────────────────────
 # PLANTILLA DE SKILL · «Hecho a la medida» · Jonathan Rodríguez
 # Cómo usarla: copia esta carpeta, cámbiale el nombre y reemplaza todo lo que
-# está entre [CORCHETES]. Las líneas que empiezan con # son comentarios para ti:
-# bórralas cuando termines. El ejemplo (un informe mensual de reseñas de una
-# tienda ficticia) está para que veas cómo se llena cada parte.
+# está entre [CORCHETES]. Aquí, dentro del encabezado (entre las dos líneas ---),
+# las líneas que empiezan con # son comentarios para ti. Más abajo, en el cuerpo,
+# los comentarios van entre <!-- y --> (las líneas con # allá son títulos).
+# Borra los comentarios cuando termines. El ejemplo (un informe mensual de
+# reseñas de una tienda ficticia) está para que veas cómo se llena cada parte.
 # ─────────────────────────────────────────────────────────────────────────────
 
 # NOMBRE: en minúsculas, sin tildes ni espacios (usa guiones).
