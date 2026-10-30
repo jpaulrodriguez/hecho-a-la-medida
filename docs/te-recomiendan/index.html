@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>¿Te recomiendan las IA? · Guía para construir la tuya</title>
+<meta name="description" content="Guía paso a paso para construir tu propia herramienta que mide si la IA recomienda tu negocio: brief, estructura, IA sin gastar de más, pantallas, servidor, seguridad y puesta en línea.">
+<meta property="og:title" content="¿Te recomiendan las IA? · Construye la tuya, fase por fase">
+<meta property="og:description" content="Del brief a la herramienta en línea, con los prompts para copiar y pegar.">
+<meta name="theme-color" content="#0D0B1F">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--noche:#0D0B1F;--noche2:#17133B;--claro:#F4F2FF;--texto:#DAD6FF;--suave:#B4B0DE;--tenue:#8B87B8;--violeta:#6C5CFF;--magenta:#FF4FA3;--coral:#FF8A3D;--lima:#35E08F;--rojo:#FF6B7A;
+--grad:linear-gradient(120deg,#6C5CFF 0%,#B04CFF 38%,#FF4FA3 68%,#FF8A3D 100%);--mono:'JetBrains Mono',ui-monospace,monospace;--tit:'Space Grotesk',system-ui,sans-serif;--txt:'DM Sans',system-ui,sans-serif;
+--sale:cubic-bezier(.23,1,.32,1);color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--noche);color:var(--texto);font:400 18px/1.65 var(--txt);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.cielo{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.cielo i{position:absolute;border-radius:50%;filter:blur(110px)}
+.cielo i:nth-child(1){width:70vmax;height:70vmax;background:#4a3cd6;opacity:.35;top:-35vmax;left:-25vmax}
+.cielo i:nth-child(2){width:60vmax;height:60vmax;background:#c2307f;opacity:.22;bottom:-35vmax;right:-25vmax}
+.cielo::after{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.07) 1.2px,transparent 1.2px);background-size:28px 28px}
+.envase{max-width:780px;margin:0 auto;padding:0 max(18px,env(safe-area-inset-left))}
+a{color:#C9C2FF}
+b,strong{color:var(--claro)}
+.g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.chip{display:inline-flex;align-items:center;gap:10px;padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);font:600 12.5px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--suave)}
+.chip i{width:9px;height:9px;border-radius:50%;background:var(--lima);box-shadow:0 0 10px var(--lima)}
+/* portada */
+.portada{padding:40px 0 28px}
+.autor{display:flex;align-items:center;gap:12px;margin:22px 0 28px}
+.autor img{width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.2)}
+.autor span{font-size:15px;color:var(--suave);line-height:1.35}
+.autor b{display:block;color:var(--claro);font-weight:700}
+h1{font:700 clamp(40px,9vw,64px)/1.02 var(--tit);letter-spacing:-.03em;color:var(--claro);margin:0 0 18px;text-wrap:balance}
+.bajada{font-size:20px;color:var(--texto);margin:0 0 26px;max-width:60ch}
+.necesitas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:26px 0 8px}
+.necesitas div{padding:14px 16px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);font-size:15.5px;line-height:1.4}
+.necesitas b{display:block;font:600 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--tenue);margin-bottom:4px}
+/* índice de fases */
+.fases{position:sticky;top:0;z-index:5;margin:22px -18px 0;padding:10px 18px;background:rgba(13,11,31,.82);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.08);display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+.fases::-webkit-scrollbar{display:none}
+.fases a{flex:none;text-decoration:none;padding:7px 13px;border-radius:999px;border:1px solid rgba(255,255,255,.14);font:600 13px var(--mono);color:var(--suave);transition:background .2s ease,color .2s ease}
+.fases a.activa{background:var(--grad);color:#fff;border-color:transparent}
+/* secciones */
+section{padding:56px 0 8px;scroll-margin-top:64px}
+.num{font:700 72px/.9 var(--tit);letter-spacing:-.04em;margin:0}
+h2{font:700 clamp(30px,6vw,40px)/1.08 var(--tit);letter-spacing:-.02em;color:var(--claro);margin:8px 0 14px;text-wrap:balance}
+h3{font:600 21px/1.25 var(--tit);color:var(--claro);margin:30px 0 10px}
+p{margin:0 0 14px}
+ul,ol{padding-left:22px;margin:0 0 16px}
+li{margin:6px 0}
+.idea{margin:20px 0;padding:18px 20px;border-radius:18px;background:linear-gradient(120deg,rgba(108,92,255,.18),rgba(255,79,163,.12));border:1px solid rgba(255,255,255,.14);color:var(--claro);font-weight:500}
+.idea b{color:#fff}
+/* ventanas */
+.ventana{margin:16px 0 22px;border-radius:18px;background:rgba(18,15,44,.86);border:1px solid rgba(255,255,255,.12);overflow:hidden;box-shadow:0 24px 50px -28px rgba(0,0,0,.9)}
+.barra{display:flex;align-items:center;gap:7px;padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.08);font:600 13px var(--mono);color:var(--suave)}
+.barra i{width:10px;height:10px;border-radius:50%;background:#FF5F57}.barra i:nth-child(2){background:#FEBC2E}.barra i:nth-child(3){background:#28C840}
+.barra em{font-style:normal;margin-left:8px;flex:1}
+.copiar{font:600 12.5px var(--mono);color:#fff;background:var(--grad);border:0;border-radius:999px;padding:7px 13px;cursor:pointer;transition:transform .16s var(--sale)}
+.copiar:active{transform:scale(.96)}
+pre{margin:0;padding:16px 18px 18px;font:400 14.5px/1.6 var(--mono);color:#E9E6FF;white-space:pre-wrap;word-break:break-word}
+.ventana.fija pre{white-space:pre;word-break:normal;overflow-x:auto}
+.k{color:#9C90FF;font-weight:600}.c{color:var(--tenue)}.ok{color:var(--lima)}.no{color:var(--rojo)}
+/* tablas */
+.tabla{overflow-x:auto;margin:14px 0 22px;border-radius:16px;border:1px solid rgba(255,255,255,.12)}
+table{border-collapse:collapse;width:100%;font-size:15.5px;min-width:520px}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.08);vertical-align:top}
+th{font:600 12.5px var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--tenue);background:rgba(255,255,255,.04)}
+tr:last-child td{border-bottom:0}
+/* flujo */
+.flujo{display:grid;gap:10px;margin:16px 0 22px}
+.paso{display:grid;grid-template-columns:62px 1fr;gap:14px;align-items:center;padding:14px 16px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1)}
+.paso .n{font:700 36px/1 var(--tit);text-align:center}
+.paso.reglas{background:rgba(53,224,143,.1);border-color:rgba(53,224,143,.35)}
+.paso.reglas .n{color:var(--lima)}
+/* casos */
+.casos{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0 22px}
+.caso{padding:16px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);font-size:15.5px;line-height:1.45}
+.caso b{display:block;font:700 18px var(--tit);margin-bottom:4px}
+/* imágenes */
+figure{margin:18px 0 24px}
+figure img{width:100%;border-radius:16px;border:1px solid rgba(255,255,255,.12);display:block}
+figcaption{font-size:14px;color:var(--tenue);margin-top:8px}
+.telefono{max-width:280px;margin:18px auto 24px;padding:10px;border-radius:40px;background:#1B1840;border:2px solid rgba(255,255,255,.18);box-shadow:0 30px 60px -30px rgba(0,0,0,.9),0 0 50px -12px rgba(176,76,255,.55)}
+.telefono img{width:100%;border-radius:30px;display:block}
+/* lista de chequeo */
+.chequeo{list-style:none;padding:0}
+.chequeo li{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.07)}
+.chequeo input{appearance:none;flex:none;width:22px;height:22px;margin-top:2px;border-radius:7px;border:2px solid rgba(255,255,255,.3);cursor:pointer;transition:background .2s ease,border-color .2s ease}
+.chequeo input:checked{background:var(--lima);border-color:var(--lima)}
+.chequeo label{cursor:pointer}
+/* errores */
+.error{display:grid;grid-template-columns:auto 1fr;gap:14px;padding:16px;border-radius:16px;background:rgba(255,107,122,.08);border:1px solid rgba(255,107,122,.28);margin:10px 0}
+.error .s{font:700 12px var(--mono);color:#fff;background:var(--rojo);border-radius:8px;padding:4px 8px;height:fit-content}
+/* cierre */
+.cierre{margin:64px 0 40px;padding:28px 24px;border-radius:24px;background:var(--grad);color:#fff}
+.cierre h2{color:#fff;margin-top:0}
+.cierre p{color:rgba(255,255,255,.92)}
+.cierre a{color:#fff;font-weight:700}
+.boton{display:inline-flex;align-items:center;gap:8px;margin-top:8px;padding:13px 20px;border-radius:14px;background:#fff;color:var(--noche);font-weight:700;text-decoration:none;border:0;cursor:pointer;font-size:16px;transition:transform .16s var(--sale)}
+.boton:active{transform:scale(.97)}
+footer{padding:0 0 48px;font-size:14px;color:var(--tenue)}
+.aviso{position:fixed;left:50%;bottom:24px;transform:translate(-50%,160%);opacity:0;background:var(--claro);color:var(--noche);padding:10px 16px;border-radius:12px;font-weight:700;font-size:14px;transition:transform .35s var(--sale),opacity .25s ease;z-index:9}
+.aviso.ver{transform:translate(-50%,0);opacity:1}
+@media (max-width:560px){.necesitas,.casos{grid-template-columns:1fr}.num{font-size:60px}}
+</style>
+</head>
+<body>
+<div class="cielo" aria-hidden="true"><i></i><i></i></div>
+<main class="envase">
+
+<header class="portada">
+  <span class="chip"><i></i>Construyo en público · Guía de la semana 1</span>
+  <div class="autor"><img src="img/jonathan.jpg" alt="Jonathan Rodríguez"><span><b>Jonathan Rodríguez</b>@jonathanrod.ia · herramientas con IA para tu empresa</span></div>
+  <h1>Construye tu propia herramienta que mide si <span class="g">la IA te recomienda</span></h1>
+  <p class="bajada">Esta semana la construí en público. Aquí está todo, fase por fase, con los prompts para copiar y pegar, para que hagas la tuya. No necesitas saber programar: necesitas saber qué pedirle a la IA.</p>
+  <div class="necesitas">
+    <div><b>Tiempo</b>Un día, si sigues las fases en orden.</div>
+    <div><b>Costo</b>Cero. Solo cuentas gratuitas.</div>
+    <div><b>Un agente de IA</b>Uno que trabaje en una carpeta de tu computador (yo usé Claude Code).</div>
+    <div><b>Dos cuentas gratis</b>Google AI Studio (la IA) y Cloudflare (para publicarla).</div>
+  </div>
+  <nav class="fases" aria-label="Fases de la guía">
+    <a href="#problema">Inicio</a><a href="#f1">1 · Brief</a><a href="#f2">2 · Estructura</a><a href="#f3">3 · IA</a><a href="#f4">4 · Pantallas</a><a href="#f5">5 · Servidor</a><a href="#f6">6 · Seguridad</a><a href="#f7">7 · En línea</a><a href="#errores">Errores</a><a href="#a-mano">A mano</a>
+  </nav>
+</header>
+
+<section id="problema">
+  <p class="num g">00</p>
+  <h2>Por qué vale la pena medirlo</h2>
+  <p>Tu cliente ya no siempre abre diez pestañas en Google. Le pregunta a una IA «¿cuál es el mejor…?» y la IA le contesta con tres nombres. Si no estás en esos tres, para ese cliente no existes, y ningún tablero de marketing te lo dice.</p>
+  <p>Lo que encontré al construirla: <b>la IA no recomienda con tu sitio; recomienda con lo que otros dicen de ti.</b> Reseñas, guías de la ciudad, Instagram, foros. Por eso puedes estar primero en Google y no salir en la respuesta.</p>
+  <div class="idea">La herramienta hace una cosa: le pregunta a la IA lo que preguntaría un cliente, anota a quién nombra y <b>de dónde lo saca</b>. Con eso sabes dónde tienes que estar.</div>
+</section>
+
+<section id="f1">
+  <p class="num g">01</p>
+  <h2>El brief, en una página</h2>
+  <p>Antes de pedirle código a la IA, escribe qué va a hacer la herramienta. Si no cabe en una página, todavía no está claro. Esta página es la que vas a releer cada vez que dudes.</p>
+  <h3>La plantilla</h3>
+  <div class="ventana"><div class="barra"><i></i><i></i><i></i><em>docs/00-BRIEF.md</em><button class="copiar">Copiar</button></div><pre><span class="k">## Problema</span>
+Qué le pasa al cliente hoy, en dos frases.
+
+<span class="k">## Objetivo medible</span>
+Qué va a saber la persona al terminar, con un número.
+Ej.: en cuántas de 8 preguntas de compra la IA nombra su marca.
+
+<span class="k">## Cómo sé que la herramienta funciona</span>
+Ej.: termina en menos de 2 minutos; acierta la marca en 8 de 10 sitios; cuesta 0.
+
+<span class="k">## Qué NO hace</span>
+<span class="no">✕ No promete subir posiciones.</span>
+<span class="no">✕ No pide correo ni datos personales.</span>
+
+<span class="k">## Entrada única</span>
+La dirección del sitio. Todo lo demás se deduce.
+
+<span class="k">## Método</span>
+Los pasos, en lenguaje de cliente.</pre></div>
+  <h3>El prompt</h3>
+  <div class="ventana"><div class="barra"><i></i><i></i><i></i><em>prompt · fase 1</em><button class="copiar">Copiar</button></div><pre>Quiero construir una herramienta web gratuita que mida si la IA recomienda un negocio cuando un cliente le pregunta por lo que vende. Antes de escribir código, ayúdame a escribir el brief en una sola página con estas partes: problema, objetivo medible, cómo sé que la herramienta funciona, qué NO hace, entrada única y método. La entrada debe ser solo la dirección del sitio. Si te falta algo, hazme máximo 3 preguntas. Guárdalo en docs/00-BRIEF.md.</pre></div>
+</section>
+
+<section id="f2">
+  <p class="num g">02</p>
+  <h2>La estructura del proyecto</h2>
+  <p>Tres carpetas, cada una con su trabajo, y un archivo que le dice a la IA qué leer. Así el agente no relee todo el proyecto en cada tarea: gasta menos tiempo y menos plata, y se equivoca menos.</p>
+  <div class="ventana fija"><div class="barra"><i></i><i></i><i></i><em>mi-herramienta/</em></div><pre><span class="k">▸ docs/</span>        <span class="c">para decidir</span>
+    00-BRIEF.md  01-PLAN.md  02-ARQUITECTURA.md
+    03-SEGURIDAD.md  04-TOKENS.md  05-PUESTA-AL-AIRE.md
+<span class="k">▸ app/</span>         <span class="c">para construir (el código)</span>
+    src/  public/  test/
+  CLAUDE.md      <span class="c">el mapa para la IA</span></pre></div>
+  <h3>El mapa para la IA</h3>
+  <div class="ventana fija"><div class="barra"><i></i><i></i><i></i><em>CLAUDE.md</em><button class="copiar">Copiar</button></div><pre><span class="k"># Mi herramienta · contexto para el agente</span>
+
+Lee solo lo que necesites:
+
+| Si vas a…                       | Lee                       |
+|---------------------------------|---------------------------|
+| entender qué es y qué no        | docs/00-BRIEF.md          |
+| saber en qué fase va            | docs/01-PLAN.md           |
+| tocar el código                 | docs/02-ARQUITECTURA.md   |
+| tocar llaves, límites o la URL  | docs/03-SEGURIDAD.md      |
+| cambiar las preguntas a la IA   | docs/04-TOKENS.md         |
+| publicar                        | docs/05-PUESTA-AL-AIRE.md |
+
+<span class="k">## Reglas que no se rompen</span>
+- La llave de la IA nunca va en el código ni en la página.
+- Lo que se puede decidir con reglas no se le pregunta a la IA.
+- Publicar lo decido yo.</pre></div>
+  <h3>El prompt</h3>
+  <div class="ventana"><div class="barra"><i></i><i></i><i></i><em>prompt · fase 2</em><button class="copiar">Copiar</button></div><pre>Lee docs/00-BRIEF.md. Crea esta estructura: docs/ para las decisiones, app/ para el código (src, public, test) y un CLAUDE.md en la raíz con una tabla "Si vas a… / Lee" que apunte a cada documento. Escribe 01-PLAN.md con fases cortas, donde cada fase termine en algo que se pueda ver y diga cómo sé que terminó. Escribe también 02-ARQUITECTURA, 03-SEGURIDAD y 04-TOKENS, de una página cada uno. Todavía no escribas código.</pre></div>
+</section>
+
+<section id="f3">
+  <p class="num g">03</p>
+  <h2>Trabajar con la IA sin gastar de más</h2>
+  <p>La regla que más plata ahorra: <b>lo que se puede decidir con reglas no se le pregunta a la IA.</b> La IA es buena leyendo y redactando; las cuentas y los diagnósticos los hacen reglas fijas, que son gratis, siempre dan lo mismo y se pueden probar.</p>
+  <div class="flujo">
+    <div class="paso"><span class="n g">1</span><span>Leer tu sitio y entender qué vendes, dónde y contra quién.</span></div>
+    <div class="paso"><span class="n g">8</span><span>Preguntas de compra, como las haría un cliente, con búsqueda de Google.</span></div>
+    <div class="paso"><span class="n g">1</span><span>Leer las 8 respuestas de una vez y sacar las marcas nombradas.</span></div>
+    <div class="paso reglas"><span class="n">0</span><span><b>Diagnóstico, puntaje y 5 arreglos: reglas fijas.</b> Cero llamadas.</span></div>
+  </div>
+  <p>10 llamadas por revisión. Mi primera versión, para proyectos, hacía entre 30 y 90.</p>
+  <h3>Cinco trucos para gastar menos</h3>
+  <ul>
+    <li><b>Resume antes de mandar.</b> Del sitio solo van el título, la descripción, los subtítulos y 1.500 caracteres de texto: de unos 30.000 tokens a unos 800.</li>
+    <li><b>Agrupa.</b> Las 8 respuestas se leen en una sola llamada, no en 8.</li>
+    <li><b>Pide formato fijo.</b> Respuesta en JSON con un esquema: no hay que adivinar qué dijo.</li>
+    <li><b>Guarda lo que ya preguntaste.</b> Si alguien revisa el mismo sitio en 7 días, no se gasta nada.</li>
+    <li><b>Que no piense de más.</b> En Gemini, el pensamiento en nivel bajo para tareas de leer y extraer.</li>
+  </ul>
+  <h3>Skills: un manual por trabajo</h3>
+  <p>Una skill es un manual que la IA sigue al pie de la letra. Usé tres: una con <b>el método</b> para medir visibilidad en IA (las preguntas, los cuatro diagnósticos), una de <b>diseño</b> para las pantallas y una de <b>revisión de seguridad</b> antes de publicar. Si tu agente no las tiene, el banco de preguntas y las reglas de esta guía son tu primera skill.</p>
+  <div class="ventana"><div class="barra"><i></i><i></i><i></i><em>prompt · fase 3</em><button class="copiar">Copiar</button></div><pre>Revisa el plan y dime cuántas llamadas a la IA hace cada revisión. Propón cómo bajarlas sin perder calidad: qué pasar a reglas fijas, qué agrupar en una sola llamada, qué resumir antes de mandar y qué guardar en caché. Escribe la decisión en docs/04-TOKENS.md con el antes y el después.</pre></div>
+</section>
+
+<section id="f4">
+  <p class="num g">04</p>
+  <h2>Boceto y pantallas</h2>
+  <p>Primero un boceto en gris, sin colores ni código real. Tres pantallas: la entrada, lo que la herramienta entendió (para corregir antes de gastar llamadas) y el informe. Si el boceto no se entiende, el diseño tampoco lo va a arreglar.</p>
+  <figure><img src="img/boceto.jpg" alt="Boceto en gris de tres pantallas: entrada, lo que entendí e informe" loading="lazy"><figcaption>El boceto: tres pantallas en gris.</figcaption></figure>
+  <div class="ventana"><div class="barra"><i></i><i></i><i></i><em>prompt · boceto</em><button class="copiar">Copiar</button></div><pre>Haz un boceto en HTML, en gris y sin colores, de 3 pantallas de celular una al lado de la otra: 1) entrada con un solo campo para el sitio y un botón; 2) "lo que entendí": marca, categoría, ciudad y competidores editables, y las 8 preguntas; 3) informe: un número grande con cuántas preguntas te nombran, el diagnóstico, la tabla por pregunta, contra quién pierdes, de dónde lo saca la IA y 5 arreglos. Guárdalo en docs/mockups/boceto.html.</pre></div>
+  <p>Después, el diseño de verdad. Pídele móvil primero, colores vivos y movimiento con criterio: que los botones se encojan un poco al presionarlos, que nada tarde más de 300 milisegundos y que todo se pueda apagar si la persona tiene activado «reducir movimiento».</p>
+  <div class="telefono"><img src="img/entrada.jpg" alt="Pantalla de entrada de la herramienta en un celular" loading="lazy"></div>
+  <div class="ventana"><div class="barra"><i></i><i></i><i></i><em>prompt · pantallas</em><button class="copiar">Copiar</button></div><pre>Con el boceto como guía, construye las 3 pantallas reales en app/public con HTML, CSS y JavaScript, sin librerías. Móvil primero, colores vivos (un degradado de violeta a coral para lo importante), letras Space Grotesk y DM Sans. Movimiento solo en transform y opacity, curvas de salida rápida, botones que se encogen a 0,97 al presionarlos, efectos de pasar el mouse solo en computador y todo apagable con prefers-reduced-motion. Todo texto que venga de la IA o del sitio se pinta como texto, nunca como HTML.</pre></div>
+</section>
+
+<section id="f5">
+  <p class="num g">05</p>
+  <h2>El servidor: preguntarle a la IA como un cliente</h2>
+  <p>Usé Cloudflare Workers, que es gratis y guarda la llave como secreto, y la API de Gemini con búsqueda de Google, que responde con fuentes. El servidor tiene dos pasos:</p>
+  <div class="flujo">
+    <div class="paso"><span class="n g">A</span><span><b>Perfil:</b> lee el sitio y deduce marca, categoría, ciudad, 3 competidores y 2 preguntas de «problema». La persona corrige si algo salió mal.</span></div>
+    <div class="paso"><span class="n g">B</span><span><b>Revisión:</b> hace las 8 preguntas, lee las respuestas y arma el informe con reglas.</span></div>
+  </div>
+  <h3>Las 8 preguntas, en 4 intenciones</h3>
+  <div class="tabla"><table>
+    <tr><th>Intención</th><th>Plantilla</th></tr>
+    <tr><td>Descubrir</td><td>¿Cuál es el mejor [lo que vendes] en [ciudad]?<br>Recomiéndame 3 opciones de [lo que vendes] en [ciudad].</td></tr>
+    <tr><td>Comparar</td><td>¿Qué es mejor, [competidor 1] o [competidor 2]? ¿Hay una opción mejor que ambas?<br>¿Qué alternativas a [competidor 1] hay en [ciudad]?</td></tr>
+    <tr><td>Decidir</td><td>¿Qué [lo que vendes] en [ciudad] tiene las mejores opiniones?<br>Voy a escoger un [lo que vendes] en [ciudad]. ¿Cuál me recomiendas y por qué?</td></tr>
+    <tr><td>Problema</td><td>Dos preguntas con una necesidad concreta que tu negocio resuelve, escritas por la IA a partir de tu sitio.</td></tr>
+  </table></div>
+  <p>Ninguna pregunta nombra tu marca. Si la nombrara, la IA la repetiría y la medición no serviría.</p>
+  <h3>El diagnóstico: cuatro casos</h3>
+  <p>Se cruza lo que dice la IA (en cuántas preguntas te nombra; alto es 3 de 8 o más) con los cimientos de tu sitio (6 revisiones: datos estructurados, perfiles enlazados, descripción, fechas, preguntas frecuentes y acceso para los rastreadores de IA; alto es 50 de 100 o más).</p>
+  <div class="casos">
+    <div class="caso"><b class="g">Gana prestado</b>La IA te nombra por lo que dicen otros, no por tu sitio. Funciona hasta que esas fuentes cambien.</div>
+    <div class="caso"><b class="g">Domina y defiende</b>Te nombra y tu sitio la respalda. Toca cuidar el puesto.</div>
+    <div class="caso"><b class="g">Fuera de la respuesta</b>Ni te nombra ni tu sitio le ayuda. Empieza por lo básico.</div>
+    <div class="caso"><b class="g">Casa sin visitas</b>Tu sitio está bien hecho, pero la IA no te nombra. Te falta estar donde ella lee.</div>
+  </div>
+  <div class="ventana"><div class="barra"><i></i><i></i><i></i><em>prompt · fase 5</em><button class="copiar">Copiar</button></div><pre>Construye el servidor en app/src como un Cloudflare Worker con dos rutas. /api/perfil: recibe la URL, descarga el sitio (máximo 8 segundos y 400 KB), resume título, descripción, h1, h2 y 1.500 caracteres, y en UNA llamada a Gemini con salida JSON deduce marca, categoría, ciudad, 3 competidores y 2 preguntas de "problema". /api/auditar: arma 8 preguntas (6 de plantilla y las 2 de problema), las hace a Gemini con búsqueda de Google de a 3 en paralelo, lee las 8 respuestas en UNA llamada que devuelve las marcas nombradas en orden, y arma el informe con reglas en un archivo aparte (analisis.js): cuota, puesto medio, fuentes más citadas, contra quién pierdes, diagnóstico y 5 arreglos. Agrega un modo prueba con respuestas fijas para probar todo sin gastar, y pruebas automáticas de las reglas.</pre></div>
+</section>
+
+<section id="f6">
+  <p class="num g">06</p>
+  <h2>Seguridad: lo que nadie te cuenta</h2>
+  <p>Una herramienta gratis y abierta es un blanco. Estos son los puntos que revisé antes de publicar:</p>
+  <ul class="chequeo">
+    <li><input type="checkbox" id="s1"><label for="s1"><b>La llave vive en el servidor</b>, como secreto. Nunca en el código, la página o el repositorio.</label></li>
+    <li><input type="checkbox" id="s2"><label for="s2"><b>Cuenta de IA sin tarjeta.</b> Crea la llave en un proyecto sin facturación: si alguien abusa, se corta la cuota y no te cobran.</label></li>
+    <li><input type="checkbox" id="s3"><label for="s3"><b>Límites:</b> 3 revisiones por hora por persona y un tope diario para toda la herramienta.</label></li>
+    <li><input type="checkbox" id="s4"><label for="s4"><b>Filtro contra robots</b> (Turnstile de Cloudflare, gratis) antes de gastar llamadas.</label></li>
+    <li><input type="checkbox" id="s5"><label for="s5"><b>La URL de entrada se valida:</b> nada de IPs, localhost ni puertos raros, para que nadie use tu herramienta como puente hacia direcciones internas.</label></li>
+    <li><input type="checkbox" id="s6"><label for="s6"><b>Nada personal:</b> no pides correo y no guardas IPs.</label></li>
+  </ul>
+  <div class="idea"><b>La trampa del «ChatGPT gratis».</b> Si tu herramienta acepta cualquier pregunta que mande el navegador, alguien la puede usar para hacerle a la IA lo que quiera, con tu cuota. La solución: las preguntas libres las firma el servidor y las demás salen de plantillas. Lo que no venga firmado, no pasa.</div>
+  <div class="ventana"><div class="barra"><i></i><i></i><i></i><em>prompt · fase 6</em><button class="copiar">Copiar</button></div><pre>Revisa la seguridad antes de publicar y arregla lo que encuentres: ¿la llave puede llegar al navegador o al repositorio? ¿la URL de entrada puede apuntar a una IP o a una dirección interna, también después de una redirección? ¿alguien puede mandar sus propias preguntas y usar la herramienta como una IA gratis con mi cuota? ¿hay límite por persona y por día? ¿algún error le muestra a la persona detalles técnicos o en inglés? Deja una prueba automática por cada arreglo y escribe todo en docs/03-SEGURIDAD.md.</pre></div>
+</section>
+
+<section id="f7">
+  <p class="num g">07</p>
+  <h2>En línea, gratis</h2>
+  <p>Cloudflare Workers sirve las pantallas y el servidor en el mismo lugar, en el plan gratis. Estos pasos los haces tú, porque piden iniciar sesión y crear llaves:</p>
+  <div class="ventana fija"><div class="barra"><i></i><i></i><i></i><em>terminal</em><button class="copiar">Copiar</button></div><pre><span class="c"># 1. Inicia sesión (abre el navegador)</span>
+npx wrangler login
+
+<span class="c"># 2. La caché y los secretos</span>
+npx wrangler kv namespace create CACHE
+npx wrangler secret put GEMINI_API_KEY
+npx wrangler secret put TURNSTILE_SECRET
+npx wrangler secret put FIRMA_SECRETO
+
+<span class="c"># 3. Pruebas y publicar</span>
+npm test && npx wrangler deploy
+
+<span class="c"># Si algo sale mal, vuelve a la versión anterior</span>
+npx wrangler rollback</pre></div>
+  <div class="ventana"><div class="barra"><i></i><i></i><i></i><em>prompt · fase 7</em><button class="copiar">Copiar</button></div><pre>Prepara la puesta en línea en Cloudflare Workers: un script desplegar.sh que se niegue a publicar si falta algún secreto, si el modo prueba sigue activo o si fallan las pruebas. Escribe en docs/05-PUESTA-AL-AIRE.md los pasos que tengo que hacer yo (iniciar sesión, crear la llave de Gemini en un proyecto sin facturación, crear el widget de Turnstile) y cómo volver atrás si algo falla.</pre></div>
+</section>
+
+<section id="errores">
+  <p class="num g">08</p>
+  <h2>Lo que salió mal (y la regla que quedó)</h2>
+  <div class="error"><span class="s">FALLO</span><div><b>«Te recomiendan en 6 de 8».</b> Mentira. La marca se había colado en su propia lista de competidores y la herramienta la contaba dos veces. <b>Regla:</b> la marca nunca es su propio competidor, con una prueba automática para que no vuelva.</div></div>
+  <div class="error"><span class="s">FALLO</span><div><b>Un error en inglés.</b> Un sitio lento devolvía «The operation was aborted due to timeout». <b>Regla:</b> todo mensaje que ve la persona se escribe a mano y en su idioma.</div></div>
+  <div class="error"><span class="s">FALLO</span><div><b>Recargar te bloqueaba.</b> Cada carga de la página contaba para el límite por minuto. <b>Regla:</b> el límite solo aplica a lo que gasta IA.</div></div>
+  <div class="idea">La IA construye rápido. <b>Revisar sigue siendo tu trabajo.</b> Prueba con datos de mentira antes de gastar en los de verdad, y mira los resultados como si fueras el cliente.</div>
+</section>
+
+<section id="a-mano">
+  <p class="num g">09</p>
+  <h2>Mientras tanto, hazlo a mano: 30 preguntas</h2>
+  <p>Si hoy no vas a construir nada, haz la prueba a mano en ChatGPT o en Gemini. Cambia lo que está entre corchetes, haz cada pregunta en una conversación nueva y anota el resultado.</p>
+  <div class="ventana"><div class="barra"><i></i><i></i><i></i><em>las 30 preguntas</em><button class="copiar">Copiar</button></div><pre><span class="k">## Descubrir (8)</span>
+1. ¿Cuál es el mejor [lo que vendes] en [ciudad]?
+2. Recomiéndame 3 opciones de [lo que vendes] en [ciudad].
+3. ¿Dónde consigo un buen [lo que vendes] cerca de [barrio o zona]?
+4. ¿Qué [lo que vendes] en [ciudad] recomiendan los que saben?
+5. Busco [lo que vendes] en [ciudad] para [un uso concreto]. ¿Qué me sugieres?
+6. ¿Cuáles son los [lo que vendes] más conocidos de [ciudad]?
+7. ¿Qué [lo que vendes] nuevo vale la pena en [ciudad]?
+8. Dame una lista de [lo que vendes] en [ciudad] con precios.
+
+<span class="k">## Comparar (7)</span>
+9. ¿Qué es mejor, [competidor 1] o [competidor 2]?
+10. ¿Qué alternativas a [competidor 1] hay en [ciudad]?
+11. Compara los 3 [lo que vendes] más recomendados de [ciudad].
+12. ¿[Competidor 1] vale lo que cuesta o hay algo mejor?
+13. ¿Cuál es más barato y bueno: [competidor 1], [competidor 2] u otro?
+14. ¿Qué diferencia hay entre los [lo que vendes] de [ciudad]?
+15. Si no me gustó [competidor 1], ¿a dónde voy?
+
+<span class="k">## Decidir (8)</span>
+16. ¿Qué [lo que vendes] en [ciudad] tiene las mejores opiniones?
+17. Voy a escoger un [lo que vendes] en [ciudad]. ¿Cuál me recomiendas y por qué?
+18. ¿En cuál [lo que vendes] de [ciudad] puedo confiar?
+19. ¿Qué [lo que vendes] de [ciudad] tiene mejor servicio?
+20. ¿Cuál [lo que vendes] tiene mejor relación calidad y precio en [ciudad]?
+21. ¿Qué [lo que vendes] de [ciudad] me recomiendas para regalar?
+22. ¿Cuál es el [lo que vendes] favorito de la gente en [ciudad]?
+23. Si solo pudiera ir a un [lo que vendes] en [ciudad], ¿cuál?
+
+<span class="k">## Problema (7)</span>
+24. Necesito [la necesidad que resuelves]. ¿Quién lo hace bien en [ciudad]?
+25. Tengo [un problema concreto]. ¿A quién acudo?
+26. ¿Cómo resuelvo [el problema] sin gastar mucho en [ciudad]?
+27. ¿Quién me puede ayudar con [la necesidad] hoy mismo en [ciudad]?
+28. Busco a alguien de confianza para [la necesidad]. ¿Opciones?
+29. ¿Qué hago si [el problema]? ¿Algún negocio que lo resuelva?
+30. ¿Dónde encuentro [algo que solo tú ofreces] en [ciudad]?</pre></div>
+  <h3>Anota así</h3>
+  <div class="tabla"><table>
+    <tr><th>#</th><th>¿Te nombra?</th><th>Puesto</th><th>A quién nombra</th><th>Fuentes que cita</th></tr>
+    <tr><td>1</td><td>Sí / No</td><td>1.º, 2.º…</td><td>Marca A, Marca B…</td><td>tripadvisor, instagram…</td></tr>
+  </table></div>
+  <h3>Cómo leerlo</h3>
+  <ul>
+    <li><b>Tu cuota:</b> en cuántas de las 30 te nombra. 11 o más es un resultado alto.</li>
+    <li><b>Contra quién pierdes:</b> la marca que más aparece cuando tú no apareces.</li>
+    <li><b>De dónde lo saca:</b> los sitios que más se repiten en las fuentes. Ahí tienes que estar.</li>
+  </ul>
+  <h3>Los 5 arreglos, en este orden</h3>
+  <ol>
+    <li><b>Aparece donde la IA lee:</b> ficha completa y reseñas recientes en los sitios que cita.</li>
+    <li><b>Pide reseñas con detalle:</b> qué compraron y por qué volverían.</li>
+    <li><b>Publica una comparación honesta</b> contra la marca que te gana: en qué eres mejor y en qué no.</li>
+    <li><b>Responde las preguntas de tus clientes</b> en una página de preguntas frecuentes.</li>
+    <li><b>Dale a tu sitio con qué ser citado:</b> datos de tu negocio bien marcados, fechas y algo que nadie más tenga.</li>
+  </ol>
+  <p>Vuelve a medir cada 3 meses: las respuestas de la IA cambian.</p>
+</section>
+
+<div class="cierre">
+  <h2>¿Conoces a alguien a quien la IA no recomienda?</h2>
+  <p>Pásale esta guía. Y si construyes la tuya, cuéntame cómo te fue en <a href="https://www.instagram.com/jonathanrod.ia/" rel="me">@jonathanrod.ia</a> o en <a href="https://www.linkedin.com/in/jonathanrod1986/" rel="me">LinkedIn</a>. Cada semana construyo una herramienta nueva, en público.</p>
+  <button class="boton" id="compartir">Compartir la guía →</button>
+</div>
+
+<footer>
+  <p>Guía de la semana 1 de «Construyo en público». Construida con un agente de IA, Gemini y Cloudflare, sin gastar un peso. Las cifras de llamadas y tiempos son de mi construcción; las tuyas pueden variar.</p>
+</footer>
+</main>
+<div class="aviso" id="aviso" role="status" aria-live="polite"></div>
+
+<script>
+const aviso = (t) => { const a = document.getElementById('aviso'); a.textContent = t; a.classList.add('ver'); clearTimeout(aviso.t); aviso.t = setTimeout(() => a.classList.remove('ver'), 2200); };
+document.querySelectorAll('.copiar').forEach((b) => b.addEventListener('click', async () => {
+  const texto = b.closest('.ventana').querySelector('pre').innerText;
+  try { await navigator.clipboard.writeText(texto); aviso('Copiado'); } catch { aviso('No se pudo copiar'); }
+}));
+document.getElementById('compartir').addEventListener('click', async () => {
+  const datos = { title: '¿Te recomiendan las IA?', text: 'Guía para construir tu herramienta que mide si la IA recomienda tu negocio:', url: location.href };
+  if (navigator.share) { try { return await navigator.share(datos); } catch { return; } }
+  try { await navigator.clipboard.writeText(`${datos.text} ${datos.url}`); aviso('Enlace copiado'); } catch { prompt('Copia el enlace:', datos.url); }
+});
+// Marca la fase que se está leyendo en el índice.
+const enlaces = [...document.querySelectorAll('.fases a')];
+const obs = new IntersectionObserver((es) => es.forEach((e) => {
+  if (!e.isIntersecting) return;
+  enlaces.forEach((a) => a.classList.toggle('activa', a.getAttribute('href') === '#' + e.target.id));
+  const activa = enlaces.find((a) => a.classList.contains('activa'));
+  activa?.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
+}), { rootMargin: '-45% 0px -50% 0px' });
+document.querySelectorAll('section[id]').forEach((s) => obs.observe(s));
+// Las casillas de seguridad se recuerdan en este navegador.
+document.querySelectorAll('.chequeo input').forEach((c) => {
+  try { c.checked = localStorage.getItem('guia1:' + c.id) === '1'; } catch {}
+  c.addEventListener('change', () => { try { localStorage.setItem('guia1:' + c.id, c.checked ? '1' : '0'); } catch {} });
+});
+</script>
+</body>
+</html>
