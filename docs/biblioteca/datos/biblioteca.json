@@ -1,0 +1,173 @@
+{
+  "recursos": [
+    {
+      "id": "te-recomiendan",
+      "tipo": "guia",
+      "titulo": "¿Te recomiendan las IA? Construye la tuya",
+      "resumen": "La guía de la serie 01: del brief a la herramienta en línea que mide si la IA recomienda tu negocio, fase por fase y con los prompts para copiar.",
+      "fecha": "2026-10-30",
+      "formato": "Guía web",
+      "etiquetas": [
+        "serie 01",
+        "visibilidad",
+        "geo",
+        "recomendación",
+        "herramienta en línea"
+      ],
+      "url": "https://jpaulrodriguez.github.io/hecho-a-la-medida/te-recomiendan/",
+      "miniatura": "biblioteca/te-recomiendan/miniatura.webp",
+      "bloque": "marketing"
+    },
+    {
+      "id": "plantilla-skill",
+      "tipo": "guia",
+      "titulo": "Plantilla de skill (SKILL.md) comentada",
+      "resumen": "La estructura para convertir un método de trabajo en instrucciones que la IA sigue igual cada vez. Comentada línea por línea, con un ejemplo de juguete.",
+      "fecha": "2026-10-29",
+      "formato": "Plantilla · Markdown",
+      "etiquetas": [
+        "skill",
+        "método",
+        "instrucciones",
+        "plantilla"
+      ],
+      "url": "https://jpaulrodriguez.github.io/hecho-a-la-medida/plantillas/SKILL.md",
+      "miniatura": "biblioteca/plantilla-skill/miniatura.webp",
+      "bloque": "growth"
+    },
+    {
+      "id": "infografia-referentes-linkedin",
+      "tipo": "infografia",
+      "titulo": "Qué tipo de post le rinde más a su autor",
+      "resumen": "1.088 publicaciones de 30 referentes de IA y liderazgo: la historia personal acierta 52 %; las listas y frameworks, 12 %.",
+      "fecha": "2026-10-28",
+      "etiquetas": [
+        "estudio",
+        "referentes",
+        "datos",
+        "ángulo",
+        "historia personal"
+      ],
+      "imagenes": [
+        "biblioteca/infografia-referentes-linkedin/01.webp"
+      ],
+      "descargas": [
+        "biblioteca/infografia-referentes-linkedin/01.png"
+      ],
+      "miniatura": "biblioteca/infografia-referentes-linkedin/miniatura.webp",
+      "bloque": "publicidad"
+    },
+    {
+      "id": "infografia-escucha-social",
+      "tipo": "infografia",
+      "titulo": "20.000 menciones de tu marca, clasificadas por US$ 6",
+      "resumen": "La escucha social con IA en 8 pasos reales: encuadre, captura, embudo, taxonomía y set dorado, texto e imágenes, medición e informe que se verifica solo.",
+      "fecha": "2026-10-26",
+      "etiquetas": [
+        "escucha social",
+        "listening",
+        "paso a paso",
+        "flujo"
+      ],
+      "imagenes": [
+        "biblioteca/infografia-escucha-social/01.webp"
+      ],
+      "descargas": [
+        "biblioteca/infografia-escucha-social/01.png"
+      ],
+      "miniatura": "biblioteca/infografia-escucha-social/miniatura.webp",
+      "bloque": "marketing"
+    },
+    {
+      "id": "guia-05",
+      "tipo": "guia",
+      "titulo": "Escucha social con IA, sin licencia",
+      "resumen": "Clasificar 20.000 menciones de una marca por unos US$ 6: captura con APIs oficiales, embudo, taxonomía cerrada y set dorado, tope de gasto, medición y un informe que se verifica solo. Con el código.",
+      "fecha": "2026-10-25",
+      "formato": "PDF · 28 págs.",
+      "etiquetas": [
+        "escucha social",
+        "listening",
+        "sentimiento",
+        "menciones",
+        "código"
+      ],
+      "url": "https://jpaulrodriguez.github.io/hecho-a-la-medida/guias/guia-05-escucha-social-con-ia.pdf",
+      "miniatura": "biblioteca/guia-05/miniatura.webp",
+      "bloque": "marketing"
+    },
+    {
+      "id": "guia-01",
+      "tipo": "guia",
+      "titulo": "Diseña tu primera herramienta con IA antes de construirla",
+      "resumen": "Los 7 pasos de diseño antes de construir: si vale la pena, partir la tarea en piezas, cerrar la salida, separar lo que propone la IA de lo que decide una regla, set dorado, filtros y costo por uso.",
+      "fecha": "2026-10-11",
+      "formato": "PDF · 19 págs.",
+      "etiquetas": [
+        "diseño",
+        "brief",
+        "costo",
+        "set dorado",
+        "principiante"
+      ],
+      "url": "https://jpaulrodriguez.github.io/hecho-a-la-medida/guias/guia-01-disena-tu-primera-herramienta.pdf",
+      "miniatura": "biblioteca/guia-01/miniatura.webp",
+      "bloque": "growth"
+    },
+    {
+      "id": "guia-02",
+      "tipo": "guia",
+      "titulo": "Que la IA no invente",
+      "resumen": "Listas cerradas con definiciones, salidas verificables con esquema y reintento, verificadores de cifras y citas, set dorado con matriz de confusión y seis familias de filtros.",
+      "fecha": "2026-10-11",
+      "formato": "PDF · 21 págs.",
+      "etiquetas": [
+        "confiable",
+        "alucinaciones",
+        "listas cerradas",
+        "verificar",
+        "filtros"
+      ],
+      "url": "https://jpaulrodriguez.github.io/hecho-a-la-medida/guias/guia-02-que-la-ia-no-invente.pdf",
+      "miniatura": "biblioteca/guia-02/miniatura.webp",
+      "bloque": "growth"
+    },
+    {
+      "id": "guia-03",
+      "tipo": "guia",
+      "titulo": "Que corra solo sin perder el control",
+      "resumen": "Orquestar pasos, semáforo de permisos, topes de gasto en código, programar corridas, agentes por frente, crítico de cambios y cómo cambiar sin romper.",
+      "fecha": "2026-10-11",
+      "formato": "PDF · 22 págs.",
+      "etiquetas": [
+        "agentes",
+        "automatización",
+        "topes",
+        "programar",
+        "orquestar"
+      ],
+      "url": "https://jpaulrodriguez.github.io/hecho-a-la-medida/guias/guia-03-que-corra-solo.pdf",
+      "miniatura": "biblioteca/guia-03/miniatura.webp",
+      "bloque": "growth"
+    },
+    {
+      "id": "guia-04",
+      "tipo": "guia",
+      "titulo": "Entregar y mantener sin sustos",
+      "resumen": "Costo real, claves que no se filtran, publicar sin abrir grifos ni pisar lo publicado, mantenimiento, auditoría y la ficha de una página de toda herramienta.",
+      "fecha": "2026-10-11",
+      "formato": "PDF · 20 págs.",
+      "etiquetas": [
+        "costo",
+        "seguridad",
+        "claves",
+        "publicar",
+        "mantenimiento",
+        "auditoría"
+      ],
+      "url": "https://jpaulrodriguez.github.io/hecho-a-la-medida/guias/guia-04-entregar-y-mantener.pdf",
+      "miniatura": "biblioteca/guia-04/miniatura.webp",
+      "bloque": "growth"
+    }
+  ]
+}
