@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Las 8 revisiones de tu tienda</title>
+<meta name="description" content="Una revisión por cada momento de la venta, para saber dónde se te cae antes de pagar más pauta. Serie ¿Dónde se te cae la venta? de Jonathan Rodríguez.">
+<!-- Fuentes abiertas (Google Fonts): Nunito Sans sustituye a Avenir Next, que no se puede servir en una página pública. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,900&family=Graduate&family=Kalam:wght@700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root { --papel: #F3EFE6; --tinta: #1B1B19; --carbon: #34332F; --gris: #6E6A61; --lino: #E8E0CF; --tomate: #E4572E; --blanco: #FBF9F5; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--papel); color: var(--tinta); font: 18px/1.55 'Nunito Sans', system-ui, sans-serif; padding: 40px 16px 64px; }
+  .hoja { max-width: 760px; margin: 0 auto; }
+  .rot { display: flex; justify-content: space-between; align-items: baseline; font-weight: 600; font-size: 13px; letter-spacing: .09em; text-transform: uppercase; color: var(--carbon); border-bottom: 2px dashed rgba(52,51,47,.45); padding-bottom: 10px; }
+  .rot b { font-family: Graduate, serif; font-weight: 400; color: var(--tomate); font-size: 16px; letter-spacing: 0; }
+  h1 { font-weight: 900; font-size: clamp(34px, 6vw, 52px); line-height: 1.04; letter-spacing: -.015em; margin: 28px 0 12px; }
+  h1 .cifra { font-family: Graduate, serif; font-weight: 400; color: var(--tomate); }
+  .bajada { color: var(--carbon); font-size: 19px; max-width: 60ch; }
+  h2 { font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--tomate); margin: 40px 0 6px; }
+  .nota { font-family: Kalam, cursive; color: var(--tomate); font-size: 19px; }
+  ol { list-style: none; margin-top: 12px; display: grid; gap: 12px; }
+  li { display: grid; grid-template-columns: 44px 1fr 28px; gap: 14px; align-items: start; background: var(--blanco); border: 2px solid var(--tinta); border-radius: 14px; padding: 16px 18px; box-shadow: 6px 6px 0 var(--lino); }
+  li .n { width: 44px; height: 44px; border-radius: 50%; background: var(--tinta); color: var(--papel); font-family: Graduate, serif; font-size: 20px; display: flex; align-items: center; justify-content: center; }
+  li.despues .n { background: var(--papel); color: var(--gris); border: 2px solid var(--gris); }
+  li h3 { font-weight: 900; font-size: 20px; line-height: 1.2; }
+  li p { color: var(--carbon); font-size: 17px; margin-top: 4px; }
+  li .caja { width: 26px; height: 26px; border: 2.5px solid var(--tinta); border-radius: 6px; margin-top: 6px; }
+  .orden { margin-top: 14px; display: grid; gap: 10px; }
+  .orden p { color: var(--carbon); }
+  .orden b { color: var(--tinta); }
+  .firma { margin-top: 44px; border-top: 2px dashed rgba(52,51,47,.45); padding-top: 16px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+  .firma strong { font-weight: 900; font-size: 18px; }
+  .firma span { color: var(--carbon); font-size: 15px; }
+  .firma a { color: var(--tomate); font-family: 'JetBrains Mono', monospace; font-size: 14px; text-decoration: none; }
+  @media print { body { background: #fff; padding: 0; } li { box-shadow: none; break-inside: avoid; } }
+</style>
+</head>
+<body>
+<main class="hoja">
+  <div class="rot"><span>¿Dónde se te cae la venta? · La lista</span><b>N.º 02</b></div>
+  <h1><span class="cifra">8</span> revisiones para hacer hoy en tu tienda</h1>
+  <p class="bajada">Una por cada momento de la venta. Hazlas desde el celular, como te ve tu cliente, y marca las que fallan antes de pagar más pauta.</p>
+
+  <h2>Los 4 para traer al cliente · se revisan desde afuera</h2>
+  <ol>
+    <li><span class="n">1</span><div><h3>Te encuentra</h3><p>Busca tu tienda en Google. ¿El título dice qué vendes en los primeros 60 caracteres, o solo el nombre de tu marca? Lo que vendes va al principio y la marca al final.</p></div><span class="caja"></span></li>
+    <li><span class="n">2</span><div><h3>Entiende qué vendes</h3><p>Abre tu tienda en el celular y cuenta las ventanas que cierras antes de ver un producto. La herramienta lo da por bien con cero, a medias con una y mal con dos o más.</p></div><span class="caja"></span></li>
+    <li><span class="n">3</span><div><h3>Quiere el producto</h3><p>Abre la ficha de tu producto más vendido. ¿Alguna foto lo muestra puesto o en uso? ¿Tiene reseñas? La herramienta lo da por bien desde 5 reseñas.</p></div><span class="caja"></span></li>
+    <li><span class="n">4</span><div><h3>Paga sin enredos</h3><p>Agrega algo al carrito. ¿Ves el costo y el tiempo del envío antes de llegar a la pantalla de pago?</p></div><span class="caja"></span></li>
+  </ol>
+
+  <h2>Los 4 de después de la compra · solo se ven señales</h2>
+  <ol>
+    <li class="despues"><span class="n">5</span><div><h3>Le llega bien</h3><p>¿Tu política de cambios y devoluciones está a la vista y se entiende en una leída?</p></div><span class="caja"></span></li>
+    <li class="despues"><span class="n">6</span><div><h3>Le sirve</h3><p>¿Hay guías de uso o de cuidado del producto?</p></div><span class="caja"></span></li>
+    <li class="despues"><span class="n">7</span><div><h3>Vuelve</h3><p>¿Hay suscripción, puntos o algo que invite a la segunda compra?</p></div><span class="caja"></span></li>
+    <li class="despues"><span class="n">8</span><div><h3>Te recomienda</h3><p>¿Le pides una reseña a quien ya compró, por ejemplo por mensaje una semana después de la entrega?</p></div><span class="caja"></span></li>
+  </ol>
+
+  <h2>Si fallan varias · por cuál empezar</h2>
+  <div class="orden">
+    <p><b>Primero la más cercana a la compra:</b> pagar, después la ficha, después la portada. La pauta va al final, porque traer más gente a una tienda que la pierde adentro es pagar para que se vaya por el mismo lado.</p>
+    <p><b>Para elegir entre arreglos,</b> ponle a cada uno una nota de 1 a 10 en impacto, confianza y facilidad, y multiplica. El que dé más va primero.</p>
+    <p><b>Antes de hacerlo,</b> escribe cómo vas a saber que funcionó. Por ejemplo: «el abandono del carrito baja 10 % en 4 semanas».</p>
+    <p class="nota">Esta semana construyo la herramienta que hace estas revisiones sola con la dirección de tu tienda.</p>
+  </div>
+
+  <div class="firma">
+    <div><strong>Jonathan Rodríguez</strong><br><span>Experto en herramientas con IA para negocios</span></div>
+    <a href="https://www.instagram.com/jonathanrod.ia/">@jonathanrod.ia</a>
+  </div>
+</main>
+</body>
+</html>
