@@ -135,7 +135,7 @@ footer{padding:0 0 48px;font-size:14.5px;color:var(--gris)}
   <div class="rot"><span>¿Dónde se te cae la venta? · La guía</span><b>N.º 02</b></div>
   <div class="autor"><img src="img/jonathan.jpg" alt="Jonathan Rodríguez"><span><b>Jonathan Rodríguez</b>@jonathanrod.ia · herramientas con IA para tu empresa</span></div>
   <h1>Guía para construir con IA una herramienta que <span class="g">mejora las ventas</span> de tu tienda en línea</h1>
-  <p class="bajada">Esta semana la construí en público. Aquí está todo: qué hace y con qué reglas, cómo sacar las llaves gratis y un kit que le subes a Claude para que la construya contigo, fase por fase. No necesitas saber programar: necesitas saber qué pedirle a la IA.</p>
+  <p class="bajada">Esta semana la construí en público. Aquí está todo: qué hace y con qué reglas, cómo sacar las llaves gratis y cuidarlas, los dos documentos que le dan memoria al proyecto y un kit que le subes a Claude para que la construya contigo, fase por fase. No necesitas saber programar: necesitas saber qué pedirle a la IA.</p>
   <div class="necesitas">
     <div><b>Tiempo</b>Una tarde con el kit. Un día, si la armas fase por fase.</div>
     <div><b>Costo</b>Cero. Solo cuentas gratuitas, sin tarjeta.</div>
@@ -144,7 +144,7 @@ footer{padding:0 0 48px;font-size:14.5px;color:var(--gris)}
   </div>
 </header>
 <nav class="fases" aria-label="Partes de la guía">
-  <a href="#problema">Inicio</a><a href="#llaves">A · Llaves</a><a href="#kit">B · Kit</a><a href="#reglas">C · Reglas</a><a href="#f1">1 · Brief</a><a href="#f2">2 · Reglas</a><a href="#f3">3 · IA</a><a href="#f4">4 · Pantallas</a><a href="#f5">5 · Servidor</a><a href="#f6">6 · Seguridad</a><a href="#f7">7 · En línea</a><a href="#errores">Errores</a><a href="#a-mano">A mano</a>
+  <a href="#problema">Inicio</a><a href="#llaves">A · Llaves</a><a href="#kit">B · Kit</a><a href="#reglas">C · Reglas</a><a href="#base">1 · Base</a><a href="#f1">2 · Brief</a><a href="#f2">3 · Reglas</a><a href="#f3">4 · IA</a><a href="#f4">5 · Pantallas</a><a href="#f5">6 · Servidor</a><a href="#f6">7 · Seguridad</a><a href="#f7">8 · En línea</a><a href="#errores">Errores</a><a href="#a-mano">A mano</a>
 </nav>
 
 <section id="problema">
@@ -166,6 +166,20 @@ footer{padding:0 0 48px;font-size:14.5px;color:var(--gris)}
   <p class="num">A</p>
   <h2>Antes de empezar: las cuentas y las llaves</h2>
   <p>Son gratis y toman unos 20 minutos. Las sacas tú, porque piden iniciar sesión. Una «llave» (API key) es una contraseña que le permite a tu herramienta usar un servicio: por eso se guarda como secreto y nunca se comparte.</p>
+
+  <h3>Las reglas de las llaves, antes de sacar la primera</h3>
+  <p>Las llaves se escapan sobre todo mientras construyes: en el chat con la IA, en una captura, en un commit o en la salida de un comando. Estas ocho reglas valen desde el primer minuto.</p>
+  <ol class="cuenta">
+    <li><b>La llave la sacas y la pegas tú.</b> El agente nunca la pide por el chat, nunca la escribe y nunca la muestra en la terminal.</li>
+    <li><b>Un solo lugar:</b> el archivo <code>app/.dev.vars</code>, con permisos cerrados y fuera del repositorio. En línea, como secreto de Cloudflare. No va en el código, en la página, en los documentos, en las pruebas, en una captura ni en un mensaje de commit.</li>
+    <li><b>El archivo de llaves se lee, no se ejecuta.</b> Nunca <code>source</code>, <code>cat</code> ni <code>echo</code> de su contenido. Para comprobar que está bien se miran los nombres de las variables y su largo, no el valor.</li>
+    <li><b>Llaves gratis, de proyectos sin facturación.</b> Si una se escapa, el daño es una cuota agotada y no una cuenta de cobro.</li>
+    <li><b>La llave viaja en un encabezado,</b> nunca en la dirección, porque las direcciones terminan guardadas en registros.</li>
+    <li><b>La plantilla va vacía.</b> El archivo de ejemplo lleva los nombres de las variables y ningún valor.</li>
+    <li><b>Antes de cada commit y de publicar: <code>npm run llaves</code>.</b> Busca el valor real de cada llave en todo el proyecto. Si la encuentra, no se sube nada.</li>
+    <li><b>Si una llave se escapó, se revoca y se crea otra ese mismo día.</b> Borrar el mensaje no basta. Queda anotado en la memoria del proyecto.</li>
+  </ol>
+  <div class="idea"><b>Por qué nunca <code>source</code>.</b> Ese comando ejecuta el archivo. En otro proyecto, una línea mal escrita se corrió como comando y el mensaje de error imprimió una llave completa: tocó revocarla. Desde entonces el archivo se lee como texto, línea por línea.</div>
 
   <h3>1. Los programas</h3>
   <ol class="cuenta">
@@ -223,13 +237,13 @@ footer{padding:0 0 48px;font-size:14.5px;color:var(--gris)}
     <tr><td>Turnstile, site key</td><td>Vacía</td><td><code>wrangler.jsonc</code></td></tr>
     <tr><td>Id de la caché</td><td><code>wrangler.jsonc</code></td><td><code>wrangler.jsonc</code></td></tr>
   </table></div>
-  <div class="alerta"><b>Nunca pegues una llave en el chat con la IA.</b> Pégala tú en el archivo. El chat se guarda, se comparte y se puede filtrar; el archivo <code>.dev.vars</code> no se sube a ningún lado.</div>
+  <div class="alerta"><b>Nunca pegues una llave en el chat con la IA.</b> Pégala tú en el archivo. El chat se guarda, se comparte y se puede filtrar; el archivo <code>.dev.vars</code> no se sube a ningún lado. La revisión <code>npm run llaves</code> la armas en la fase 1, antes de tener la primera llave.</div>
 </section>
 
 <section id="kit">
   <p class="num">B</p>
   <h2>El kit: súbelo a Claude y construye</h2>
-  <p>Escribí la herramienta entera en un solo documento: qué hace, todas las reglas con sus pesos, cómo encuentra la ficha y el carrito, el texto exacto de lo que se le pregunta a la IA, los experimentos, la seguridad, las pantallas, las pruebas y cómo publicarla. Con ese documento, Claude la construye contigo sin adivinar nada.</p>
+  <p>Escribí la herramienta entera en un solo documento: qué hace, las reglas de las llaves, las plantillas de <code>CLAUDE.md</code> y <code>MEMORY.md</code>, todas las reglas con sus pesos, cómo encuentra la ficha y el carrito, el texto exacto de lo que se le pregunta a la IA, los experimentos, la seguridad, las pantallas, las pruebas y cómo publicarla. Con ese documento, Claude la construye contigo sin adivinar nada.</p>
   <div class="descarga">
     <span class="icono" aria-hidden="true">.MD</span>
     <div><b>Kit para construir «¿Dónde se te cae la venta?»</b>Especificación completa, en español, lista para Claude.</div>
@@ -248,7 +262,8 @@ footer{padding:0 0 48px;font-size:14.5px;color:var(--gris)}
 
 <span class="k">Cómo vamos a trabajar:</span>
 - Por fases. Al final de cada fase te detienes y me dices: qué hiciste, cómo lo pruebo yo (un comando o un clic) y qué sigue. No pases a la siguiente sin mi «sigue».
-- Nunca me pidas una llave por el chat ni la escribas en un archivo distinto de app/.dev.vars. Yo la pego.
+- Nunca me pidas una llave por el chat ni la escribas en un archivo distinto de app/.dev.vars. Yo la pego. Las reglas de las llaves de la sección 3.8 valen desde el primer minuto: antes de cada commit y antes de publicar corres npm run llaves y me muestras el resultado.
+- Desde la fase 1 mantienes MEMORY.md. Al empezar cada sesión lo lees antes de tocar nada. Con cada cambio, en el mismo turno, reescribes el estado, agregas una entrada nueva arriba del historial (qué cambió, por qué y dónde) y sumas el aprendizaje si lo hubo. Las entradas viejas no se editan.
 - Nada se publica hasta que yo escriba «publica».
 - Lo que se puede decidir con reglas no se le pregunta a la IA: una sola llamada por diagnóstico.
 - La herramienta se identifica como robot y respeta a las tiendas que la frenan. Nunca se hace pasar por un navegador.
@@ -256,7 +271,7 @@ footer{padding:0 0 48px;font-size:14.5px;color:var(--gris)}
 
 <span class="k">Fase 0 · Entender.</span> Resume en 10 líneas qué vas a construir y qué cuentas y programas necesito (sección 3 del kit). Hazme máximo 3 preguntas: el nombre de mi herramienta, el país de mis clientes (el kit viene ajustado a Colombia: medios de pago, teléfonos, direcciones) y si uso el diseño del kit o uno propio.
 
-<span class="k">Fase 1 · Documentos.</span> Crea docs/ con 00-BRIEF, 01-PLAN, 02-ARQUITECTURA, 03-SEGURIDAD, 04-TOKENS y 05-PUESTA-AL-AIRE, cada uno de una página y sacado del kit, y un CLAUDE.md en la raíz con una tabla «Si vas a… / Lee». Todavía sin código.
+<span class="k">Fase 1 · La base: documentos, memoria y llaves.</span> Crea en la raíz CLAUDE.md (la tabla «Si vas a… / Lee», las reglas de las llaves y las reglas que no se rompen) y MEMORY.md con sus cuatro partes y la entrada H01 (plantillas en la sección 10). Crea docs/ con 00-BRIEF, 01-PLAN, 02-ARQUITECTURA, 03-SEGURIDAD, 04-TOKENS y 05-PUESTA-AL-AIRE, cada uno de una página y sacado del kit. Crea app/ solo con package.json, .gitignore, .dev.vars.ejemplo sin valores y revisar-llaves.mjs (sección 10). Todavía sin más código. Para probarlo: dentro de app, npm run llaves debe decir «Llaves en orden».
 
 <span class="k">Fase 2 · Esqueleto en modo prueba.</span> Crea app/ como un Cloudflare Worker con archivos estáticos (sección 10), con MODO_PRUEBA=1: la IA y la velocidad devuelven datos fijos y no gastan nada. Para probarlo: npm install, npm run dev y abrir http://localhost:8789.
 
@@ -268,9 +283,9 @@ footer{padding:0 0 48px;font-size:14.5px;color:var(--gris)}
 
 <span class="k">Fase 6 · Con la IA de verdad.</span> Antes de correr, escribo yo una revisión a mano de 3 o 4 tiendas que conozco: en qué fase creo que se cae cada una y por qué. Después me avisas cuándo pegar mi llave en app/.dev.vars (sin mostrarla), pasas a MODO_PRUEBA=0, corremos esas tiendas y comparamos con mi revisión y con la sección 12 (errores conocidos). No cambies pesos para que coincida.
 
-<span class="k">Fase 7 · Seguridad.</span> Revisa la sección 4 punto por punto y deja una prueba automática por cada arreglo.
+<span class="k">Fase 7 · Seguridad.</span> Revisa la sección 4 punto por punto y deja una prueba automática por cada arreglo. Corre npm run llaves y revisa que MEMORY.md tenga una entrada por cada cambio hecho hasta aquí.
 
-<span class="k">Fase 8 · En línea.</span> Prepara desplegar.sh y dime, paso a paso, lo que tengo que hacer yo en Cloudflare (sección 11). Publicas solo cuando yo diga «publica»; después probamos juntos la dirección pública.</pre></div>
+<span class="k">Fase 8 · En línea.</span> Prepara desplegar.sh (que corre npm test y npm run llaves antes de publicar y se detiene si alguno falla) y dime, paso a paso, lo que tengo que hacer yo en Cloudflare (sección 11). Publicas solo cuando yo diga «publica»; después probamos juntos la dirección pública.</pre></div>
   <div class="idea"><b>¿Por qué fases y no «hazme la herramienta»?</b> Porque si le pides todo de una vez, la IA adivina, y lo que adivina no lo puedes revisar. Con fases cortas ves cada pieza funcionando antes de seguir, y los errores salen cuando todavía son baratos.</div>
 </section>
 
@@ -370,8 +385,123 @@ footer{padding:0 0 48px;font-size:14.5px;color:var(--gris)}
 
 <div class="separa"><span class="chip">Así la construí, fase por fase</span></div>
 
-<section id="f1">
+<section id="base">
   <p class="num">01</p>
+  <h2>La base: CLAUDE.md, MEMORY.md y las llaves protegidas</h2>
+  <p>Antes del brief y antes de la primera línea de código, el proyecto arranca con dos documentos y una revisión. El agente de IA no recuerda nada entre una sesión y la siguiente: estos archivos son su memoria, y también la tuya.</p>
+  <div class="flujo">
+    <div class="paso"><span class="n">1</span><span><b>CLAUDE.md, el mapa.</b> Qué leer para cada tarea, las reglas de las llaves y las reglas que no se rompen. <small>Cambia poco. Es lo primero que lee el agente en cada sesión.</small></span></div>
+    <div class="paso"><span class="n">2</span><span><b>MEMORY.md, la memoria.</b> Cómo está hoy la herramienta, qué se decidió, qué se aprendió y todo lo que cambió para llegar ahí. <small>Crece con cada cambio.</small></span></div>
+    <div class="paso reglas"><span class="n">3</span><span><b>npm run llaves, el seguro.</b> La revisión que confirma que ninguna llave salió de su archivo. <small>Se arma antes de tener la primera llave.</small></span></div>
+  </div>
+
+  <h3>La estructura</h3>
+  <div class="ventana fija"><div class="barra"><i></i><i></i><i></i><em>mi-herramienta/</em></div><pre>  CLAUDE.md     <span class="c">el mapa y las reglas</span>
+  MEMORY.md     <span class="c">la memoria del proyecto</span>
+  KIT-DONDE-SE-CAE-LA-VENTA.md  <span class="c">el kit</span>
+<span class="k">▸ docs/</span>       <span class="c">para decidir</span>
+    00-BRIEF.md  01-PLAN.md
+    02-ARQUITECTURA.md  03-SEGURIDAD.md
+    04-TOKENS.md  05-PUESTA-AL-AIRE.md
+<span class="k">▸ app/</span>        <span class="c">para construir</span>
+    src/  public/  test/
+    .dev.vars           <span class="c">las llaves</span>
+    .dev.vars.ejemplo   <span class="c">sin valores</span>
+    revisar-llaves.mjs  <span class="c">npm run llaves</span>
+<span class="k">▸ corridas/</span>   <span class="c">cada prueba real</span></pre></div>
+
+  <h3>CLAUDE.md: el mapa</h3>
+  <p>Una tabla de «si vas a hacer esto, lee aquello» evita que el agente relea todo el proyecto en cada tarea: gasta menos y se equivoca menos. Y las reglas van escritas ahí porque es el único archivo que lee siempre.</p>
+  <div class="ventana fija larga"><div class="barra"><i></i><i></i><i></i><em>CLAUDE.md</em><button class="copiar">Copiar</button></div><pre><span class="k"># Mi herramienta · contexto para el agente</span>
+
+Qué es, en dos líneas. El estado al día
+vive en MEMORY.md.
+
+<span class="k">## Lee solo lo que necesites</span>
+
+| Si vas a…                  | Lee                       |
+|----------------------------|---------------------------|
+| saber cómo está hoy        | MEMORY.md                 |
+| entender qué es y qué no   | docs/00-BRIEF.md          |
+| saber en qué fase va       | docs/01-PLAN.md           |
+| tocar reglas o pesos       | docs/02-ARQUITECTURA.md   |
+| tocar llaves o límites     | docs/03-SEGURIDAD.md      |
+| cambiar la llamada a la IA | docs/04-TOKENS.md         |
+| publicar                   | docs/05-PUESTA-AL-AIRE.md |
+
+<span class="k">## Llaves: reglas de seguridad</span>
+- Las llaves las saca y las pega la
+  persona. Nunca se piden por el chat,
+  nunca se escriben, nunca se muestran.
+- Viven solo en app/.dev.vars (permisos
+  600, fuera de git) y, en línea, como
+  secretos.
+- El archivo de llaves se lee como texto.
+  Nunca source, cat ni echo.
+- Antes de cada commit y de publicar:
+  npm run llaves. Si falla, no se sube.
+- Si una llave se escapó: se revoca ese
+  mismo día y se anota en MEMORY.md.
+
+<span class="k">## Memoria: cada cambio se anota</span>
+Con cada cambio, en el mismo turno, se
+actualiza MEMORY.md: el estado, una
+entrada nueva arriba del historial (qué,
+por qué y dónde) y el aprendizaje si lo
+hubo. Las entradas viejas no se editan.
+
+<span class="k">## Reglas que no se rompen</span>
+- Toda dirección que se abre se valida.
+- Lo que se decide con reglas no se le
+  pregunta a la IA.
+- La herramienta se identifica como robot.
+- Costo cero. Publicar lo decido yo.</pre></div>
+
+  <h3>MEMORY.md: la memoria</h3>
+  <p>Tiene cuatro partes: el estado actual, las decisiones vigentes, los aprendizajes y el historial de cambios, del más reciente al más antiguo. La regla es una sola: <b>con cada cambio, en el mismo turno, se anota.</b> Se reescribe el estado, se agrega una entrada arriba del historial y se suma el aprendizaje si lo hubo. Las entradas viejas no se tocan: una corrección es una entrada nueva.</p>
+  <div class="ventana larga"><div class="barra"><i></i><i></i><i></i><em>MEMORY.md</em><button class="copiar">Copiar</button></div><pre><span class="k"># MEMORY · Mi herramienta</span>
+
+Versión de este documento: 1 · fecha
+
+<span class="k">## 1. Estado actual</span>
+- Dónde corre y en qué dirección.
+- Qué tiene: cuántas reglas, cuántas pruebas pasan, qué IA usa.
+- Qué tan bien acierta, con el número.
+- Llaves: dónde viven y si npm run llaves pasa.
+- Qué sigue abierto.
+
+<span class="k">## 2. Decisiones vigentes</span>
+1. Cada decisión que no se discute de nuevo, con su motivo.
+
+<span class="k">## 3. Aprendizajes</span>
+1. Lo que salió mal y la regla que dejó.
+
+<span class="k">## 4. Historial de cambios</span>
+Del más reciente al más antiguo.
+
+<span class="k">### H02 · fecha y hora · título corto</span>
+- Qué: lo que cambió.
+- Por qué: el motivo o el fallo que lo causó.
+- Dónde: los archivos.
+
+<span class="k">### H01 · fecha y hora · Arranque</span>
+- Qué: carpeta, CLAUDE.md, MEMORY.md, documentos y revisor de llaves.
+- Por qué: empezar con memoria y con las llaves protegidas desde el primer día.
+- Dónde: raíz, docs/ y app/.</pre></div>
+  <p>Así se ve una entrada real de mi construcción:</p>
+  <div class="ventana"><div class="barra"><i></i><i></i><i></i><em>MEMORY.md · una entrada</em></div><pre><span class="k">### H05 · 8-nov-2026, hacia las 10:30 p. m. · Tres arreglos después del segundo caso</span>
+- Qué: regla nueva en Interés, «Sin ventanas al llegar» (peso 15). A la IA le llega la imagen principal y el titular visibles, ya no el texto para buscadores. El informe avisa si la tienda tiene versiones por país.
+- Por qué: en el segundo caso la fase más débil coincidió en 1 de 4 tiendas.
+- Resultado: 3 de 4 en las mismas tiendas, que no cuenta como validación porque esas tiendas inspiraron los arreglos.
+- Dónde: app/src/reglas.js, app/src/extraer.js, app/src/gemini.js.</pre></div>
+  <div class="idea"><b>Ábrelo el primer día.</b> Yo lo armé tarde: reconstruí el historial cinco días después, a partir de los apuntes de cada corrida. Y encontré que mi plan decía 25 reglas cuando el código ya tenía 28. Con una entrada por cambio, el estado se corrige en el mismo momento en que cambia.</div>
+
+  <h3>El prompt</h3>
+  <div class="ventana"><div class="barra"><i></i><i></i><i></i><em>prompt · fase 1</em><button class="copiar">Copiar</button></div><pre>Antes de escribir código, arma la base del proyecto. 1) Crea CLAUDE.md en la raíz con una tabla «Si vas a… / Lee», una sección de reglas de seguridad de las llaves y las reglas que no se rompen. 2) Crea MEMORY.md con cuatro partes (estado actual, decisiones vigentes, aprendizajes e historial de cambios, del más reciente al más antiguo) y la entrada H01 con lo que acabas de hacer. Desde ahora, con cada cambio y en el mismo turno, actualizas MEMORY.md: reescribes el estado, agregas una entrada nueva arriba del historial (qué, por qué y dónde) y sumas el aprendizaje si lo hubo; las entradas viejas no se editan. Al empezar cada sesión lo lees antes de tocar nada. 3) Crea app/ con package.json, un .gitignore que ignore .dev.vars, un .dev.vars.ejemplo con los nombres de las variables y sin valores, y revisar-llaves.mjs con el comando npm run llaves: debe fallar si .dev.vars tiene permisos más abiertos que 600, si el ejemplo trae valores o si cualquier archivo del proyecto contiene el valor real de una llave o un texto con forma de llave, y nunca debe imprimir el valor. Reglas para ti: nunca me pidas una llave por el chat, nunca hagas source, cat ni echo del archivo de llaves, y corre npm run llaves antes de cada commit y de publicar. Para terminar, muéstrame que npm run llaves dice «Llaves en orden» y que falla con una llave falsa en una carpeta de prueba.</pre></div>
+</section>
+
+<section id="f1">
+  <p class="num">02</p>
   <h2>El brief, en una página</h2>
   <p>Antes de pedirle código a la IA, escribe qué va a hacer la herramienta. Si no cabe en una página, todavía no está claro. Esta página es la que vas a releer cada vez que dudes.</p>
   <h3>La plantilla</h3>
@@ -399,11 +529,11 @@ en al menos 3 de 4 tiendas; termina en menos de 2 minutos; cuesta 0.
 <span class="k">## Entrada única</span>
 La dirección de la tienda. Todo lo demás lo encuentra sola.</pre></div>
   <h3>El prompt</h3>
-  <div class="ventana"><div class="barra"><i></i><i></i><i></i><em>prompt · fase 1</em><button class="copiar">Copiar</button></div><pre>Quiero construir una herramienta web gratuita que lea una tienda en línea como un cliente y diga en cuál de las 8 fases de la venta se le va el cliente y qué 3 arreglos probar primero. Antes de escribir código, ayúdame a escribir el brief en una sola página con estas partes: problema, objetivo, decisión de negocio que resuelve, cómo sé que la herramienta funciona, qué NO hace y entrada única. La entrada debe ser solo la dirección de la tienda. Si te falta algo, hazme máximo 3 preguntas. Guárdalo en docs/00-BRIEF.md.</pre></div>
+  <div class="ventana"><div class="barra"><i></i><i></i><i></i><em>prompt · fase 2</em><button class="copiar">Copiar</button></div><pre>Quiero construir una herramienta web gratuita que lea una tienda en línea como un cliente y diga en cuál de las 8 fases de la venta se le va el cliente y qué 3 arreglos probar primero. Antes de escribir código, ayúdame a escribir el brief en una sola página con estas partes: problema, objetivo, decisión de negocio que resuelve, cómo sé que la herramienta funciona, qué NO hace y entrada única. La entrada debe ser solo la dirección de la tienda. Si te falta algo, hazme máximo 3 preguntas. Guárdalo en docs/00-BRIEF.md.</pre></div>
 </section>
 
 <section id="f2">
-  <p class="num">02</p>
+  <p class="num">03</p>
   <h2>Del método a las reglas</h2>
   <p>Esta es la fase que más pesa. Un método dice qué mirar; una herramienta necesita saber <b>cómo comprobarlo leyendo una página</b>. Para cada fase me hice la misma pregunta: ¿qué puede ver un robot desde afuera que le diga si esto está bien?</p>
   <ol class="cuenta">
@@ -414,11 +544,11 @@ La dirección de la tienda. Todo lo demás lo encuentra sola.</pre></div>
     <li><b>Tu revisión a mano, fechada, antes de correr la herramienta.</b> Abre cuatro tiendas en el celular, anota en cuál fase crees que se cae cada una y guárdalo. Es la vara con la que vas a medir si la herramienta sirve.</li>
   </ol>
   <div class="idea"><b>La revisión a mano va primero.</b> Si la escribes después de ver lo que dice la herramienta, vas a estar de acuerdo con ella sin darte cuenta.</div>
-  <div class="ventana"><div class="barra"><i></i><i></i><i></i><em>prompt · fase 2</em><button class="copiar">Copiar</button></div><pre>Lee docs/00-BRIEF.md. Vamos a convertir las 8 fases de la venta en reglas que se puedan comprobar leyendo el HTML de una tienda. Para las 4 fases que se ven desde afuera (Atención, Interés, Deseo, Acción), propón entre 6 y 9 reglas por fase: cada una con su nombre, qué hecho de la página mira, cómo se decide cada estado (se cumple, a medias, no se cumple, no se pudo ver) y un peso. Los pesos de cada fase deben sumar 100. Para las 4 fases de después de la compra, propón solo señales que se ven desde afuera. Por cada regla escribe un experimento: nombre, hipótesis, qué medir, «funciona si», e impacto, confianza y facilidad de 1 a 10. Déjalo en una tabla en docs/02-ARQUITECTURA.md y no escribas código todavía. Antes de seguir, recuérdame escribir mi revisión a mano de 4 tiendas en corridas/REVISION-A-MANO.md.</pre></div>
+  <div class="ventana"><div class="barra"><i></i><i></i><i></i><em>prompt · fase 3</em><button class="copiar">Copiar</button></div><pre>Lee docs/00-BRIEF.md. Vamos a convertir las 8 fases de la venta en reglas que se puedan comprobar leyendo el HTML de una tienda. Para las 4 fases que se ven desde afuera (Atención, Interés, Deseo, Acción), propón entre 6 y 9 reglas por fase: cada una con su nombre, qué hecho de la página mira, cómo se decide cada estado (se cumple, a medias, no se cumple, no se pudo ver) y un peso. Los pesos de cada fase deben sumar 100. Para las 4 fases de después de la compra, propón solo señales que se ven desde afuera. Por cada regla escribe un experimento: nombre, hipótesis, qué medir, «funciona si», e impacto, confianza y facilidad de 1 a 10. Déjalo en una tabla en docs/02-ARQUITECTURA.md y no escribas código todavía. Antes de seguir, recuérdame escribir mi revisión a mano de 4 tiendas en corridas/REVISION-A-MANO.md.</pre></div>
 </section>
 
 <section id="f3">
-  <p class="num">03</p>
+  <p class="num">04</p>
   <h2>Reglas primero, IA después</h2>
   <p>La regla que más plata ahorra: <b>lo que se puede decidir con reglas no se le pregunta a la IA.</b> Las reglas son gratis, siempre dan lo mismo y se pueden probar. A la IA le dejé solo lo que una regla no puede ver: si al llegar se entiende qué vendes y si las fotos muestran el producto en uso.</p>
   <p>Una llamada por diagnóstico. En las 12 corridas que guardé con la versión actual gastó entre 1.350 y 1.974 tokens, según cuántas fotos tenga la ficha.</p>
@@ -430,11 +560,11 @@ La dirección de la tienda. Todo lo demás lo encuentra sola.</pre></div>
     <li><b>Que no piense de más.</b> Pensamiento en nivel bajo y un tope de 700 tokens de respuesta.</li>
     <li><b>Guarda lo que ya preguntaste.</b> Si alguien revisa la misma tienda en 7 días, no se gasta nada.</li>
   </ul>
-  <div class="ventana"><div class="barra"><i></i><i></i><i></i><em>prompt · fase 3</em><button class="copiar">Copiar</button></div><pre>Revisa la tabla de reglas y dime cuáles se pueden decidir leyendo el HTML y cuáles de verdad necesitan a la IA. Quiero UNA sola llamada a la IA por diagnóstico, con salida JSON y esquema fijo, que resuelva todo lo que las reglas no pueden. Dime qué le vas a mandar exactamente (cuánto texto, cuántas imágenes y de qué tamaño) y cuántos tokens calculas. El texto de la tienda va como datos: la instrucción debe decirle a la IA que ignore cualquier orden que aparezca ahí. Escribe la decisión en docs/04-TOKENS.md.</pre></div>
+  <div class="ventana"><div class="barra"><i></i><i></i><i></i><em>prompt · fase 4</em><button class="copiar">Copiar</button></div><pre>Revisa la tabla de reglas y dime cuáles se pueden decidir leyendo el HTML y cuáles de verdad necesitan a la IA. Quiero UNA sola llamada a la IA por diagnóstico, con salida JSON y esquema fijo, que resuelva todo lo que las reglas no pueden. Dime qué le vas a mandar exactamente (cuánto texto, cuántas imágenes y de qué tamaño) y cuántos tokens calculas. El texto de la tienda va como datos: la instrucción debe decirle a la IA que ignore cualquier orden que aparezca ahí. Escribe la decisión en docs/04-TOKENS.md.</pre></div>
 </section>
 
 <section id="f4">
-  <p class="num">04</p>
+  <p class="num">05</p>
   <h2>Boceto y pantallas</h2>
   <p>Primero un boceto en gris, sin colores ni código real. Tres pantallas: la entrada (un solo campo), la espera (los pasos que la herramienta va haciendo) y el informe. Si el boceto no se entiende, el diseño tampoco lo va a arreglar.</p>
   <figure><img src="img/boceto.jpg" alt="Boceto en gris de tres pantallas: entrada, espera e informe" loading="lazy"><figcaption>El boceto: tres pantallas en gris.</figcaption></figure>
@@ -444,7 +574,7 @@ La dirección de la tienda. Todo lo demás lo encuentra sola.</pre></div>
 </section>
 
 <section id="f5">
-  <p class="num">05</p>
+  <p class="num">06</p>
   <h2>El servidor: leer una tienda ajena</h2>
   <p>Usé Cloudflare Workers, que es gratis y guarda las llaves como secretos. La parte que más trabajo me dio fue encontrar sola la ficha y el carrito de una tienda que no conozco.</p>
   <div class="flujo">
@@ -455,11 +585,11 @@ La dirección de la tienda. Todo lo demás lo encuentra sola.</pre></div>
     <div class="paso"><span class="n">E</span><span><b>La versión de la tienda:</b> el idioma y si hay versiones por país. <small>Si la tienda está en otro idioma, el informe avisa que la que ve tu cliente puede ser otra.</small></span></div>
   </div>
   <p>Tres archivos hacen el trabajo y ninguno llama a nadie: uno convierte el HTML en hechos, otro aplica las reglas y otro ordena los experimentos. Por eso se prueban sin internet.</p>
-  <div class="ventana"><div class="barra"><i></i><i></i><i></i><em>prompt · fase 5</em><button class="copiar">Copiar</button></div><pre>Construye el servidor en app/src como un Cloudflare Worker con una ruta, POST /api/diagnosticar, que recibe la dirección de una tienda. Sepáralo en archivos: sitio.js (descarga protegida: encuentra una ficha de producto en los enlaces del inicio o en el sitemap, salta las agotadas, sin precio o para empresas, encuentra el carrito y baja hasta 3 fotos y la imagen principal); extraer.js (del HTML a hechos, sin red); reglas.js (las reglas con sus pesos, los 4 estados, el puntaje de cada fase sobre lo visto, la cobertura y la fase más débil); experimentos.js (un experimento por regla y el orden por nota = impacto × confianza × facilidad); velocidad.js (PageSpeed Insights en celular, y si no responde la velocidad queda fuera del puntaje); gemini.js (la única llamada a la IA) y worker.js (las rutas, el orden y la caché de 7 días por dominio). Cierra todo cuerpo de respuesta que no leas: un Worker solo abre 6 conexiones a la vez. Agrega un modo prueba que no llame a la IA ni a PageSpeed y pruebas automáticas de las reglas con HTML guardado.</pre></div>
+  <div class="ventana"><div class="barra"><i></i><i></i><i></i><em>prompt · fase 6</em><button class="copiar">Copiar</button></div><pre>Construye el servidor en app/src como un Cloudflare Worker con una ruta, POST /api/diagnosticar, que recibe la dirección de una tienda. Sepáralo en archivos: sitio.js (descarga protegida: encuentra una ficha de producto en los enlaces del inicio o en el sitemap, salta las agotadas, sin precio o para empresas, encuentra el carrito y baja hasta 3 fotos y la imagen principal); extraer.js (del HTML a hechos, sin red); reglas.js (las reglas con sus pesos, los 4 estados, el puntaje de cada fase sobre lo visto, la cobertura y la fase más débil); experimentos.js (un experimento por regla y el orden por nota = impacto × confianza × facilidad); velocidad.js (PageSpeed Insights en celular, y si no responde la velocidad queda fuera del puntaje); gemini.js (la única llamada a la IA) y worker.js (las rutas, el orden y la caché de 7 días por dominio). Cierra todo cuerpo de respuesta que no leas: un Worker solo abre 6 conexiones a la vez. Agrega un modo prueba que no llame a la IA ni a PageSpeed y pruebas automáticas de las reglas con HTML guardado.</pre></div>
 </section>
 
 <section id="f6">
-  <p class="num">06</p>
+  <p class="num">07</p>
   <h2>Seguridad: abrir sitios ajenos sin abrirle la puerta a nadie</h2>
   <p>Esta herramienta descarga páginas con lo que escribe un desconocido. Eso la vuelve delicada. Estos son los puntos que revisé:</p>
   <ul class="chequeo">
@@ -471,14 +601,16 @@ La dirección de la tienda. Todo lo demás lo encuentra sola.</pre></div>
     <li><input type="checkbox" id="s6"><label for="s6"><b>Límites:</b> 3 diagnósticos por hora por persona y un tope diario para toda la herramienta. Antes, el filtro contra robots.</label></li>
     <li><input type="checkbox" id="s7"><label for="s7"><b>No hay campo libre.</b> A la IA solo le llegan texto y fotos de la tienda leída, así nadie la usa como una IA gratis con tu cuota.</label></li>
     <li><input type="checkbox" id="s8"><label for="s8"><b>El texto de la tienda va como datos.</b> La instrucción le dice a la IA que ignore cualquier orden que aparezca ahí.</label></li>
+    <li><input type="checkbox" id="s10"><label for="s10"><b><code>npm run llaves</code> pasa</b> antes de cada commit y antes de publicar, y falla cuando le pones una llave falsa en una carpeta de prueba.</label></li>
+    <li><input type="checkbox" id="s11"><label for="s11"><b><code>MEMORY.md</code> está al día:</b> el estado dice cómo quedó y hay una entrada por cada cambio.</label></li>
     <li><input type="checkbox" id="s9"><label for="s9"><b>Errores claros y nada personal:</b> la persona nunca ve un error técnico, el detalle del error de Google no se le muestra, no pides correo y no guardas IPs.</label></li>
   </ul>
   <div class="idea"><b>No esquives el freno.</b> Cuando una tienda me frenó, la salida fácil era hacerme pasar por un navegador. No lo hice: si el dueño de un sitio le pone un límite a los robots, se respeta, y el informe dice qué no se pudo leer.</div>
-  <div class="ventana"><div class="barra"><i></i><i></i><i></i><em>prompt · fase 6</em><button class="copiar">Copiar</button></div><pre>Revisa la seguridad antes de publicar y arregla lo que encuentres: ¿la llave puede llegar al navegador o al repositorio? ¿alguna dirección que abre la herramienta (la de entrada, la ficha, el carrito, el sitemap, una foto o una redirección) puede apuntar a una IP o a una dirección interna? ¿hay tope de tiempo y de tamaño en cada descarga? ¿la herramienta se identifica como robot y respeta el código 429 de las tiendas? ¿hay límite por persona y por día? ¿un texto dentro de la tienda puede darle órdenes a la IA? ¿algún error le muestra a la persona detalles técnicos o en inglés? Deja una prueba automática por cada arreglo y escribe todo en docs/03-SEGURIDAD.md.</pre></div>
+  <div class="ventana"><div class="barra"><i></i><i></i><i></i><em>prompt · fase 7</em><button class="copiar">Copiar</button></div><pre>Revisa la seguridad antes de publicar y arregla lo que encuentres: ¿la llave puede llegar al navegador o al repositorio? ¿alguna dirección que abre la herramienta (la de entrada, la ficha, el carrito, el sitemap, una foto o una redirección) puede apuntar a una IP o a una dirección interna? ¿hay tope de tiempo y de tamaño en cada descarga? ¿la herramienta se identifica como robot y respeta el código 429 de las tiendas? ¿hay límite por persona y por día? ¿un texto dentro de la tienda puede darle órdenes a la IA? ¿algún error le muestra a la persona detalles técnicos o en inglés? Deja una prueba automática por cada arreglo y escribe todo en docs/03-SEGURIDAD.md.</pre></div>
 </section>
 
 <section id="f7">
-  <p class="num">07</p>
+  <p class="num">08</p>
   <h2>En línea, gratis</h2>
   <p>Cloudflare Workers sirve las pantallas y el servidor en el mismo lugar, en el plan gratis. Es el camino que usé con la herramienta de la semana pasada. Esta todavía corre solo en mi computador: te cuento los pasos como quedaron escritos, y el riesgo que hay que probar antes de anunciarla.</p>
   <div class="ventana fija"><div class="barra"><i></i><i></i><i></i><em>terminal</em><button class="copiar">Copiar</button></div><pre><span class="c"># 1. Inicia sesión (abre el navegador) y crea la caché</span>
@@ -501,11 +633,11 @@ npx wrangler deploy
 npx wrangler tail
 npx wrangler rollback</pre></div>
   <div class="alerta"><b>Antes de anunciarla, prueba 3 tiendas reales desde la dirección pública.</b> Algunas plataformas frenan a los robots, y en línea tu herramienta sale desde direcciones que comparten muchos otros. Si el aviso «la tienda frenó la lectura automática» sale siempre, dilo en la portada en vez de esquivar el freno.</div>
-  <div class="ventana"><div class="barra"><i></i><i></i><i></i><em>prompt · fase 7</em><button class="copiar">Copiar</button></div><pre>Prepara la puesta en línea en Cloudflare Workers: un script desplegar.sh que se niegue a publicar si falta el id de la caché, si falta algún secreto, si falta la site key de Turnstile, si el modo prueba sigue activo o si fallan las pruebas. Escribe en docs/07-PUESTA-AL-AIRE.md los pasos que tengo que hacer yo (iniciar sesión, crear la llave de Gemini en un proyecto sin facturación, crear el widget de Turnstile y, si quiero, la llave gratis de PageSpeed) y cómo volver atrás si algo falla.</pre></div>
+  <div class="ventana"><div class="barra"><i></i><i></i><i></i><em>prompt · fase 8</em><button class="copiar">Copiar</button></div><pre>Prepara la puesta en línea en Cloudflare Workers: un script desplegar.sh que se niegue a publicar si falta el id de la caché, si falta algún secreto, si falta la site key de Turnstile, si el modo prueba sigue activo o si fallan las pruebas. Escribe en docs/07-PUESTA-AL-AIRE.md los pasos que tengo que hacer yo (iniciar sesión, crear la llave de Gemini en un proyecto sin facturación, crear el widget de Turnstile y, si quiero, la llave gratis de PageSpeed) y cómo volver atrás si algo falla.</pre></div>
 </section>
 
 <section id="errores">
-  <p class="num">08</p>
+  <p class="num">09</p>
   <h2>Lo que salió mal (y la regla que quedó)</h2>
   <div class="error"><span class="s">FALLO</span><div><b>Acertó en una de cuatro.</b> Mis reglas contaban fotos, precios y botones, y lo que espantaba a la gente eran dos ventanas al entrar: escoger el país y dejar el correo. Ninguna regla las veía. <b>Regla:</b> mide lo que pesa, no lo que es fácil de contar.</div></div>
   <div class="error"><span class="s">FALLO</span><div><b>La IA decía «se entiende» en 7 de 8 tiendas.</b> Le mandaba el texto que la tienda escribe para Google, que sí dice qué vende. El cliente ve otra cosa: una foto de campaña. <b>Regla:</b> a la IA, solo lo que ve el cliente.</div></div>
@@ -520,7 +652,7 @@ npx wrangler rollback</pre></div>
 </section>
 
 <section id="a-mano">
-  <p class="num">09</p>
+  <p class="num">10</p>
   <h2>Mientras tanto, hazlo a mano: 8 revisiones</h2>
   <p>Si hoy no vas a construir nada, haz la revisión a mano. Una por cada fase, desde el celular, como te ve tu cliente.</p>
   <h3>Las 4 para traer al cliente</h3>

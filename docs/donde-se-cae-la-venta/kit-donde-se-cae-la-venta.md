@@ -1,6 +1,6 @@
 # Kit para construir «¿Dónde se te cae la venta?» con Claude
 
-Versión 1.0 · noviembre de 2026 · Jonathan Rodríguez (@jonathanrod.ia), «Construyo en público», semana 2.
+Versión 1.1 · noviembre de 2026 · Jonathan Rodríguez (@jonathanrod.ia), «Construyo en público», semana 2. La 1.1 suma las reglas de las llaves mientras construyes (sección 3.8), el revisor de llaves y los documentos `CLAUDE.md` y `MEMORY.md` desde la primera fase (sección 10).
 
 Este archivo es la especificación completa de la herramienta: qué hace, qué páginas lee, con qué reglas califica cada fase de la venta, cómo elige los experimentos, qué le pregunta a la IA (con el texto exacto), cómo se protege y cómo se publica. Está escrito para que se lo des a Claude y la construya contigo, fase por fase.
 
@@ -17,7 +17,8 @@ Este archivo es la especificación completa de la herramienta: qué hace, qué p
 
 - Este kit es la fuente de verdad. Síguelo tal cual. Si algo no está escrito aquí, pregunta antes de inventarlo.
 - Trabaja por las fases de la sección 1. Al final de cada una detente y di: qué hiciste, cómo lo pruebo yo (un comando o un clic) y qué sigue. No avances sin «sigue».
-- Nunca pidas, muestres ni escribas las llaves (Gemini, PageSpeed) fuera de `app/.dev.vars`. La persona las pega ahí. Nunca hagas `source` de ese archivo: léelo como texto, línea por línea.
+- Nunca pidas, muestres ni escribas las llaves (Gemini, PageSpeed) fuera de `app/.dev.vars`. La persona las pega ahí. Nunca hagas `source` de ese archivo: léelo como texto, línea por línea. Las reglas completas están en la sección 3.8 y valen desde el primer minuto.
+- Desde la fase 1 el proyecto lleva `CLAUDE.md` y `MEMORY.md` (plantillas en la sección 10). Al empezar cada sesión lee `MEMORY.md` antes de tocar nada. Con cada cambio, en el mismo turno, actualízalo: el estado, una entrada nueva arriba del historial (qué, por qué y dónde) y el aprendizaje si lo hubo. Las entradas viejas no se editan.
 - No publiques nada hasta que la persona escriba «publica».
 - Todo mensaje que vea el usuario final va en español y escrito a mano. Ningún error técnico en inglés llega a la pantalla.
 - Lo que se puede decidir con reglas no se le pregunta a la IA: **una sola llamada a la IA por diagnóstico**.
@@ -33,7 +34,8 @@ Vas a construir conmigo una herramienta web llamada «¿Dónde se te cae la vent
 
 Cómo vamos a trabajar:
 - Por fases. Al final de cada fase te detienes y me dices: qué hiciste, cómo lo pruebo yo (un comando o un clic) y qué sigue. No pases a la siguiente sin mi «sigue».
-- Nunca me pidas una llave por el chat ni la escribas en un archivo distinto de app/.dev.vars. Yo la pego.
+- Nunca me pidas una llave por el chat ni la escribas en un archivo distinto de app/.dev.vars. Yo la pego. Las reglas de las llaves de la sección 3.8 valen desde el primer minuto: antes de cada commit y antes de publicar corres npm run llaves y me muestras el resultado.
+- Desde la fase 1 mantienes MEMORY.md. Al empezar cada sesión lo lees antes de tocar nada. Con cada cambio, en el mismo turno, reescribes el estado, agregas una entrada nueva arriba del historial (qué cambió, por qué y dónde) y sumas el aprendizaje si lo hubo. Las entradas viejas no se editan.
 - Nada se publica hasta que yo escriba «publica».
 - Lo que se puede decidir con reglas no se le pregunta a la IA: una sola llamada por diagnóstico.
 - La herramienta se identifica como robot y respeta a las tiendas que la frenan. Nunca se hace pasar por un navegador.
@@ -41,7 +43,7 @@ Cómo vamos a trabajar:
 
 Fase 0 · Entender. Resume en 10 líneas qué vas a construir y qué cuentas y programas necesito (sección 3 del kit). Hazme máximo 3 preguntas: el nombre de mi herramienta, el país de mis clientes (el kit viene ajustado a Colombia: medios de pago, teléfonos, direcciones) y si uso el diseño del kit o uno propio.
 
-Fase 1 · Documentos. Crea docs/ con 00-BRIEF, 01-PLAN, 02-ARQUITECTURA, 03-SEGURIDAD, 04-TOKENS y 05-PUESTA-AL-AIRE, cada uno de una página y sacado del kit, y un CLAUDE.md en la raíz con una tabla «Si vas a… / Lee». Todavía sin código.
+Fase 1 · La base: documentos, memoria y llaves. Crea en la raíz CLAUDE.md (la tabla «Si vas a… / Lee», las reglas de las llaves y las reglas que no se rompen) y MEMORY.md con sus cuatro partes y la entrada H01 (plantillas en la sección 10). Crea docs/ con 00-BRIEF, 01-PLAN, 02-ARQUITECTURA, 03-SEGURIDAD, 04-TOKENS y 05-PUESTA-AL-AIRE, cada uno de una página y sacado del kit. Crea app/ solo con package.json, .gitignore, .dev.vars.ejemplo sin valores y revisar-llaves.mjs (sección 10). Todavía sin más código. Para probarlo: dentro de app, npm run llaves debe decir «Llaves en orden».
 
 Fase 2 · Esqueleto en modo prueba. Crea app/ como un Cloudflare Worker con archivos estáticos (sección 10), con MODO_PRUEBA=1: la IA y la velocidad devuelven datos fijos y no gastan nada. Para probarlo: npm install, npm run dev y abrir http://localhost:8789.
 
@@ -53,9 +55,9 @@ Fase 5 · Pantallas. Entrada, espera e informe (sección 8), móvil primero, con
 
 Fase 6 · Con la IA de verdad. Antes de correr, escribo yo una revisión a mano de 3 o 4 tiendas que conozco: en qué fase creo que se cae cada una y por qué. Después me avisas cuándo pegar mi llave en app/.dev.vars (sin mostrarla), pasas a MODO_PRUEBA=0, corremos esas tiendas y comparamos con mi revisión y con la sección 12 (errores conocidos). No cambies pesos para que coincida.
 
-Fase 7 · Seguridad. Revisa la sección 4 punto por punto y deja una prueba automática por cada arreglo.
+Fase 7 · Seguridad. Revisa la sección 4 punto por punto y deja una prueba automática por cada arreglo. Corre npm run llaves y revisa que MEMORY.md tenga una entrada por cada cambio hecho hasta aquí.
 
-Fase 8 · En línea. Prepara desplegar.sh y dime, paso a paso, lo que tengo que hacer yo en Cloudflare (sección 11). Publicas solo cuando yo diga «publica»; después probamos juntos la dirección pública.
+Fase 8 · En línea. Prepara desplegar.sh (que corre npm test y npm run llaves antes de publicar y se detiene si alguno falla) y dime, paso a paso, lo que tengo que hacer yo en Cloudflare (sección 11). Publicas solo cuando yo diga «publica»; después probamos juntos la dirección pública.
 ```
 
 ---
@@ -167,6 +169,21 @@ Un texto largo al azar con el que el servidor saca una huella de la IP para el l
 
 `.dev.vars` va en `.gitignore` y con permisos 600 (`chmod 600 app/.dev.vars`). Ninguna llave va en el código, en la página ni en el repositorio.
 
+### 3.8 Reglas de las llaves mientras construyes
+
+Una llave se escapa casi siempre durante la construcción: en el chat con la IA, en una captura, en un commit o en la salida de un comando. Estas reglas valen desde antes de sacar la primera.
+
+1. **La llave la sacas y la pegas tú.** El agente nunca la pide por el chat, nunca la escribe y nunca la muestra en la terminal.
+2. **Un solo lugar:** `app/.dev.vars`, con permisos 600 y fuera de git. En línea, como secreto de Cloudflare (`npx wrangler secret put`). No va en el código, en la página, en `wrangler.jsonc`, en los documentos, en las pruebas, en una captura ni en un mensaje de commit.
+3. **El archivo de llaves se lee, no se ejecuta.** Nunca `source`, nunca `cat`, nunca `echo` de su contenido. `source` ejecuta el archivo: una línea mal escrita se corre como comando y el error imprime la llave completa. Se lee como texto, línea por línea, y para comprobar que está bien se muestran los nombres de las variables y su largo, no el valor.
+4. **Llaves gratis, de proyectos sin facturación** (secciones 3.2 y 3.3). Si una se escapa, el daño es una cuota agotada y no una cuenta de cobro.
+5. **La llave viaja en un encabezado,** nunca en la dirección. Los errores del proveedor no se reenvían a la persona ni se guardan completos en un registro.
+6. **La plantilla va vacía:** `app/.dev.vars.ejemplo` lleva los nombres de las variables y ningún valor.
+7. **Antes de cada commit y de cada publicación:** `npm run llaves`, dentro de `app/`. Si falla, no se sube nada.
+8. **Si una llave llegó a un chat, una captura, un commit o un registro, se revoca y se crea otra ese mismo día.** Borrar el mensaje no basta. Queda anotado en `MEMORY.md`.
+
+`npm run llaves` corre `app/revisar-llaves.mjs`, que se especifica en la sección 10.
+
 ---
 
 ## 4. Reglas que no se rompen (seguridad)
@@ -235,6 +252,9 @@ Persona        Front (public/)          Worker (src/)                           
 | `app/public/index.html`, `app.css`, `app.js` | Entrada, espera e informe, sin librerías |
 | `app/test/reglas.test.js` | 24 pruebas sin red |
 | `app/corrida.mjs` | El mismo diagnóstico desde Node, sin servidor ni caché, para guardar corridas en JSON |
+| `app/revisar-llaves.mjs` | Revisa que ninguna llave esté fuera de `app/.dev.vars` (`npm run llaves`); nunca imprime un valor |
+| `CLAUDE.md` | El mapa para el agente: qué leer para cada tarea, las reglas de las llaves y las reglas que no se rompen |
+| `MEMORY.md` | La memoria del proyecto: estado actual, decisiones vigentes, aprendizajes e historial de cambios |
 
 ### Rutas (contratos)
 
@@ -695,6 +715,8 @@ Al abrir la página con `?id=<16 hex>`, se pide `/api/informe` y se muestra el i
 - Turnstile se salta si no hay secreto, y `FIRMA_SECRETO` puede faltar.
 - Un informe de prueba nunca se sirve como real: el modo entra en el `id`.
 
+**Revisión de llaves (`npm run llaves`).** Va aparte de las pruebas de las reglas y se corre antes de cada commit y de cada publicación, para confirmar que ninguna llave salió de `app/.dev.vars` (sección 3.8 y especificación en la sección 10). Pruébala una vez con una llave falsa en una carpeta aparte, para ver que falla.
+
 **Pruebas sin red (`npm test`, con `node --test`).** Son 24, sobre una tienda de café inventada (un inicio y una ficha escritos a mano dentro del archivo de pruebas):
 
 1. `validarUrl` rechaza vacío, `localhost`, `localhost` con puerto, `127.0.0.1`, `10.0.0.1`, `[::1]`, `file:`, `ftp:`, puerto 22, usuario y clave, `intranet` (sin punto), `.internal`, `.local` y 201 caracteres; acepta `tutienda.com` y devuelve su dominio.
@@ -737,7 +759,8 @@ Al abrir la página con `?id=<16 hex>`, se pide `/api/informe` y se muestra el i
   "type": "module",
   "scripts": {
     "dev": "wrangler dev --port 8789",
-    "test": "node --test test/*.test.js"
+    "test": "node --test test/*.test.js",
+    "llaves": "node revisar-llaves.mjs"
   },
   "devDependencies": { "wrangler": "^4.0.0" }
 }
@@ -790,13 +813,125 @@ node_modules/
 .DS_Store
 ```
 
+**`app/revisar-llaves.mjs`** (lo corre `npm run llaves`; se crea en la fase 1, antes de que exista una llave)
+
+Qué debe hacer:
+- Leer `app/.dev.vars` como texto, línea por línea, con la forma `NOMBRE=valor`. Nunca lo ejecuta.
+- Fallar si `app/.dev.vars` existe con permisos más abiertos que 600, o si `app/.gitignore` no ignora `.dev.vars`.
+- Fallar si `app/.dev.vars.ejemplo` trae un valor en `GEMINI_API_KEY`, `FIRMA_SECRETO`, `PSI_API_KEY` o `TURNSTILE_SECRET`.
+- Fallar si `app/wrangler.jsonc` declara alguno de esos cuatro nombres: los secretos no van en `vars`.
+- Recorrer todos los archivos de texto del proyecto (la carpeta que contiene a `app/`), sin `node_modules`, `.wrangler`, `.git`, `package-lock.json`, el propio `.dev.vars`, imágenes, audio, video ni archivos de más de 3 MB, y fallar si alguno contiene:
+  - el valor real de una llave de `.dev.vars` (las variables cuyo nombre trae KEY, SECRET o TOKEN y cuyo valor tiene 12 caracteres o más);
+  - un texto con forma de llave: `AIza` seguido de 30 caracteres o más, `AQ.` seguido de 30 o más, `sk-` seguido de 24 o más;
+  - una de las cuatro variables secretas seguida de `=` o `:` y un valor de 16 caracteres o más que no sea de relleno (`tu-llave`, `pendiente`, `ejemplo`).
+- **Nunca imprimir un valor.** Por cada problema dice el archivo, la línea y el nombre de la variable o del patrón.
+- Salir con código 1 si algo falla y con 0 si no. Cuando pasa dice «Llaves en orden» y cuántos archivos revisó.
+- Aceptar `--raiz <carpeta>` para revisar otra carpeta. Sirve para probar el revisor: crea una carpeta aparte con una llave falsa y comprueba que falla.
+
+**`CLAUDE.md`** (en la raíz; es lo primero que lee el agente en cada sesión)
+```markdown
+# Mi herramienta · contexto para el agente
+
+Qué es, en dos líneas, y en qué estado está (el detalle vive en MEMORY.md).
+
+## Lee solo lo que necesites
+
+| Si vas a…                                           | Lee                       |
+|-----------------------------------------------------|---------------------------|
+| saber cómo está hoy, qué cambió y qué se aprendió   | MEMORY.md                 |
+| entender qué es y qué no                            | docs/00-BRIEF.md          |
+| saber en qué fase va                                | docs/01-PLAN.md           |
+| tocar reglas, pesos o experimentos                  | docs/02-ARQUITECTURA.md   |
+| tocar llaves, límites o las direcciones que se abren| docs/03-SEGURIDAD.md      |
+| cambiar la llamada a la IA                          | docs/04-TOKENS.md         |
+| publicar                                            | docs/05-PUESTA-AL-AIRE.md |
+
+No leas app/node_modules/ ni app/.wrangler/.
+
+## Llaves: reglas de seguridad
+
+- Las llaves las saca y las pega la persona. Nunca se piden por el chat, nunca se escriben y nunca se muestran en la terminal.
+- Viven solo en app/.dev.vars (permisos 600, fuera de git) y, en línea, como secretos de Cloudflare.
+- El archivo de llaves se lee como texto, línea por línea. Nunca source, cat ni echo de su contenido.
+- Antes de cada commit y de cada publicación: npm run llaves. Si falla, no se sube nada.
+- Si una llave se escapó, se avisa para revocarla ese mismo día y se anota en MEMORY.md.
+
+## Memoria: cada cambio se anota
+
+Con cada cambio, en el mismo turno, se actualiza MEMORY.md: el estado, una entrada nueva arriba del historial (qué, por qué y dónde) y el aprendizaje si lo hubo. Las entradas viejas no se editan.
+
+## Reglas que no se rompen
+
+- Toda dirección que se abre pasa por validarUrl.
+- Lo que se puede decidir con reglas no se le pregunta a la IA: una llamada por diagnóstico.
+- La herramienta se identifica como robot y respeta cuando una tienda la frena.
+- Costo cero: si algo exige saldo o tarjeta, se detiene y se avisa.
+- Publicar lo decide la persona.
+
+## Comandos
+
+cd app
+npm run dev        (http://localhost:8789; con MODO_PRUEBA=1 no gasta)
+npm test           (pruebas sin red)
+npm run llaves     (ninguna llave fuera de app/.dev.vars)
+```
+
+**`MEMORY.md`** (en la raíz; se crea en la fase 1 con la entrada H01 y crece con cada cambio)
+```markdown
+# MEMORY · Mi herramienta
+
+Versión de este documento: 1 · fecha
+
+Con cada cambio, en el mismo turno: se reescribe la sección 1, se agrega arriba del historial una entrada H nueva, se suma el aprendizaje si lo hubo y se sube en 1 la versión. Las entradas viejas no se editan ni se borran: una corrección es una entrada nueva.
+
+## 1. Estado actual
+
+- Dónde corre (local o en línea) y en qué dirección.
+- Qué tiene: cuántas reglas, cuántas pruebas pasan, qué modelo de IA usa.
+- Qué tan bien acierta, con el número y contra qué se midió.
+- Llaves: dónde viven y si npm run llaves pasa.
+- Qué sigue abierto.
+
+## 2. Decisiones vigentes
+
+1. Cada decisión que no se discute de nuevo, en una línea, con su motivo.
+
+## 3. Aprendizajes
+
+1. Lo que salió mal o sorprendió, y la regla que dejó. Con la entrada del historial donde pasó.
+
+## 4. Historial de cambios
+
+Del más reciente al más antiguo.
+
+### H02 · fecha y hora · título corto
+- Qué: lo que cambió.
+- Por qué: el motivo o el fallo que lo causó.
+- Dónde: los archivos.
+
+### H01 · fecha y hora · Arranque
+- Qué: carpeta creada, CLAUDE.md, MEMORY.md, documentos y revisor de llaves.
+- Por qué: empezar con memoria y con las llaves protegidas desde el primer día.
+- Dónde: raíz, docs/ y app/.
+```
+
+Una entrada real de la construcción original, para que veas el nivel de detalle:
+
+```markdown
+### H05 · 8-nov-2026, hacia las 10:30 p. m. · Tres arreglos después del segundo caso
+- Qué: regla nueva en Interés, «Sin ventanas al llegar» (peso 15). A la IA le llega la imagen principal y el titular visibles, ya no el texto para buscadores. El informe avisa si la tienda tiene versiones por país.
+- Por qué: en el segundo caso la fase más débil coincidió en 1 de 4 tiendas.
+- Resultado: 3 de 4 en las mismas tiendas, que no cuenta como validación porque esas tiendas inspiraron los arreglos.
+- Dónde: app/src/reglas.js, app/src/extraer.js, app/src/gemini.js.
+```
+
 ---
 
 ## 11. Puesta en línea (gratis, en Cloudflare Workers)
 
 Estos pasos los haces tú, porque piden iniciar sesión y pegar llaves. Claude te guía.
 
-1. `npm test`: todo en verde.
+1. `npm test` y `npm run llaves`: los dos en verde.
 2. Crea la caché (sección 3.4) y pega su id en `wrangler.jsonc`.
 3. Primera publicación: `npx wrangler deploy`. Crea la herramienta y te da su dirección (`https://mi-herramienta.tu-subdominio.workers.dev`).
 4. Crea el widget de Turnstile con esa dirección (sección 3.5).
@@ -816,6 +951,8 @@ Estos pasos los haces tú, porque piden iniciar sesión y pegar llaves. Claude t
 **`desplegar.sh`** debe negarse a publicar si: el id de la KV sigue en `pendiente-crear-al-publicar`, `MODO_PRUEBA` sigue en `"1"`, falta la site key, falta alguno de los secretos obligatorios (`npx wrangler secret list`: Gemini, firma y Turnstile) o fallan las pruebas.
 
 Si tu cuenta de Cloudflare ya usa el subdominio `workers.dev` para otra cosa (por ejemplo, el de tu empresa), puedes publicar como proyecto de Cloudflare Pages, también gratis. Ahí no existe el límite de ráfagas: quedan Turnstile y los topes en KV.
+
+Cuando quede publicada, anótalo en `MEMORY.md`: la dirección, la fecha y qué probaste.
 
 ---
 
@@ -854,6 +991,9 @@ Todos pasaron de verdad al construir la herramienta original.
 - [ ] Con la IA de verdad, la fase más débil coincide con tu revisión en al menos 3 de 4, sin haber tocado pesos después de ver el resultado. Si no, anota por qué en la corrida.
 - [ ] Un diagnóstico usa 1 sola llamada a la IA y termina en menos de 2 minutos.
 - [ ] Las llaves no aparecen en `public/`, en `src/`, en el repositorio ni en el chat.
+- [ ] `npm run llaves` dice «Llaves en orden», y falla cuando le pones una llave falsa en una carpeta de prueba.
+- [ ] `CLAUDE.md` trae las reglas de las llaves y la tabla de qué leer.
+- [ ] `MEMORY.md` tiene el estado al día y una entrada por cada cambio, desde H01.
 - [ ] Los proyectos de Google no tienen facturación.
 - [ ] La herramienta se identifica como robot y respeta los 429.
 - [ ] Turnstile, límite por hora y tope diario funcionan en la dirección pública.
