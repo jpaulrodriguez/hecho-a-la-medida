@@ -140,7 +140,7 @@ footer{padding:0 0 48px;font-size:14px;color:var(--tenue)}
   <span class="chip"><i></i>Construyo en público · Guía de la semana 1</span>
   <div class="autor"><img src="img/jonathan.jpg" alt="Jonathan Rodríguez"><span><b>Jonathan Rodríguez</b>@jonathanrod.ia · herramientas con IA para tu empresa</span></div>
   <h1>Construye tu propia herramienta que mide si <span class="g">la IA te recomienda</span></h1>
-  <p class="bajada">Esta semana la construí en público. Aquí está todo: qué hace y con qué reglas, cómo sacar las llaves gratis, y un kit que le subes a Claude para que la construya contigo, fase por fase. No necesitas saber programar: necesitas saber qué pedirle a la IA.</p>
+  <p class="bajada">Esta semana la construí en público. Aquí está todo: qué hace y con qué reglas, cómo sacar las llaves gratis y cuidarlas, los dos documentos que le dan memoria al proyecto, y un kit que le subes a Claude para que la construya contigo, fase por fase. No necesitas saber programar: necesitas saber qué pedirle a la IA.</p>
   <div class="necesitas">
     <div><b>Tiempo</b>Una tarde con el kit. Un día, si la armas fase por fase.</div>
     <div><b>Costo</b>Cero. Solo cuentas gratuitas, sin tarjeta.</div>
@@ -149,7 +149,7 @@ footer{padding:0 0 48px;font-size:14px;color:var(--tenue)}
   </div>
 </header>
 <nav class="fases" aria-label="Partes de la guía">
-    <a href="#problema">Inicio</a><a href="#llaves">A · Llaves</a><a href="#kit">B · Kit</a><a href="#reglas">C · Reglas</a><a href="#f1">1 · Brief</a><a href="#f2">2 · Estructura</a><a href="#f3">3 · IA</a><a href="#f4">4 · Pantallas</a><a href="#f5">5 · Servidor</a><a href="#f6">6 · Seguridad</a><a href="#f7">7 · En línea</a><a href="#errores">Errores</a><a href="#a-mano">A mano</a>
+    <a href="#problema">Inicio</a><a href="#llaves">A · Llaves</a><a href="#kit">B · Kit</a><a href="#reglas">C · Reglas</a><a href="#base">1 · Base</a><a href="#f1">2 · Brief</a><a href="#f3">3 · IA</a><a href="#f4">4 · Pantallas</a><a href="#f5">5 · Servidor</a><a href="#f6">6 · Seguridad</a><a href="#f7">7 · En línea</a><a href="#errores">Errores</a><a href="#a-mano">A mano</a>
   </nav>
 
 <section id="problema">
@@ -170,6 +170,20 @@ footer{padding:0 0 48px;font-size:14px;color:var(--tenue)}
   <p class="num g">A</p>
   <h2>Antes de empezar: las cuentas y las llaves</h2>
   <p>Son gratis y toman unos 20 minutos. Las sacas tú, porque piden iniciar sesión. Una «llave» (API key) es una contraseña que le permite a tu herramienta usar un servicio: por eso se guarda como secreto y nunca se comparte.</p>
+
+  <h3>Las reglas de las llaves, antes de sacar la primera</h3>
+  <p>Las llaves se escapan sobre todo mientras construyes: en el chat con la IA, en una captura, en un commit o en la salida de un comando. Estas ocho reglas valen desde el primer minuto.</p>
+  <ol class="cuenta">
+    <li><b>La llave la sacas y la pegas tú.</b> El agente nunca la pide por el chat, nunca la escribe y nunca la muestra en la terminal.</li>
+    <li><b>Un solo lugar:</b> el archivo <code>app/.dev.vars</code>, con permisos cerrados y fuera del repositorio. En línea, como secreto de Cloudflare. No va en el código, en la página, en los documentos, en las pruebas, en una captura ni en un mensaje de commit.</li>
+    <li><b>El archivo de llaves se lee, no se ejecuta.</b> Nunca <code>source</code>, <code>cat</code> ni <code>echo</code> de su contenido. Para comprobar que está bien se miran los nombres de las variables y su largo, no el valor.</li>
+    <li><b>Llaves gratis, de proyectos sin facturación.</b> Si una se escapa, el daño es una cuota agotada y no una cuenta de cobro.</li>
+    <li><b>La llave viaja en un encabezado,</b> nunca en la dirección, porque las direcciones terminan guardadas en registros.</li>
+    <li><b>La plantilla va vacía.</b> El archivo de ejemplo lleva los nombres de las variables y ningún valor.</li>
+    <li><b>Antes de cada commit y de publicar: <code>npm run llaves</code>.</b> Busca el valor real de cada llave en todo el proyecto. Si la encuentra, no se sube nada.</li>
+    <li><b>Si una llave se escapó, se revoca y se crea otra ese mismo día.</b> Borrar el mensaje no basta. Queda anotado en la memoria del proyecto.</li>
+  </ol>
+  <div class="idea"><b>Por qué nunca <code>source</code>.</b> Ese comando ejecuta el archivo. En otro proyecto, una línea mal escrita se corrió como comando y el mensaje de error imprimió una llave completa: tocó revocarla. Desde entonces el archivo se lee como texto, línea por línea.</div>
 
   <h3>1. Los programas</h3>
   <ol class="cuenta">
@@ -216,13 +230,13 @@ footer{padding:0 0 48px;font-size:14px;color:var(--tenue)}
     <tr><td>Turnstile, site key</td><td>Vacía</td><td><code>wrangler.jsonc</code></td></tr>
     <tr><td>Id de la caché</td><td><code>wrangler.jsonc</code></td><td><code>wrangler.jsonc</code></td></tr>
   </table></div>
-  <div class="alerta"><b>Nunca pegues una llave en el chat con la IA.</b> Pégala tú en el archivo. El chat se guarda, se comparte y se puede filtrar; el archivo <code>.dev.vars</code> no se sube a ningún lado.</div>
+  <div class="alerta"><b>Nunca pegues una llave en el chat con la IA.</b> Pégala tú en el archivo. El chat se guarda, se comparte y se puede filtrar; el archivo <code>.dev.vars</code> no se sube a ningún lado. La revisión <code>npm run llaves</code> la armas en la fase 1, antes de tener la primera llave.</div>
 </section>
 
 <section id="kit">
   <p class="num g">B</p>
   <h2>El kit: súbelo a Claude y construye</h2>
-  <p>Escribí la herramienta entera en un solo documento: qué hace, las reglas con sus números, cómo procesa cada revisión, el texto exacto de lo que se le pregunta a la IA, la seguridad, las pantallas, las pruebas y cómo publicarla. Con ese documento, Claude la construye contigo sin adivinar nada.</p>
+  <p>Escribí la herramienta entera en un solo documento: qué hace, las reglas de las llaves, las plantillas de <code>CLAUDE.md</code> y <code>MEMORY.md</code>, las reglas con sus números, cómo procesa cada revisión, el texto exacto de lo que se le pregunta a la IA, la seguridad, las pantallas, las pruebas y cómo publicarla. Con ese documento, Claude la construye contigo sin adivinar nada.</p>
   <div class="descarga">
     <span class="icono" aria-hidden="true">.MD</span>
     <div><b>Kit para construir «¿Te recomiendan las IA?»</b>Especificación completa, en español, lista para Claude.</div>
@@ -241,14 +255,15 @@ footer{padding:0 0 48px;font-size:14px;color:var(--tenue)}
 
 <span class="k">Cómo vamos a trabajar:</span>
 - Por fases. Al final de cada fase te detienes y me dices: qué hiciste, cómo lo pruebo yo (un comando o un clic) y qué sigue. No pases a la siguiente sin mi «sigue».
-- Nunca me pidas la llave de Gemini por el chat ni la escribas en un archivo distinto de app/.dev.vars. Yo la pego.
+- Nunca me pidas la llave de Gemini por el chat ni la escribas en un archivo distinto de app/.dev.vars. Yo la pego. Las reglas de las llaves de la sección 3.7 valen desde el primer minuto: antes de cada commit y antes de publicar corres npm run llaves y me muestras el resultado.
+- Desde la fase 1 mantienes MEMORY.md. Al empezar cada sesión lo lees antes de tocar nada. Con cada cambio, en el mismo turno, reescribes el estado, agregas una entrada nueva arriba del historial (qué cambió, por qué y dónde) y sumas el aprendizaje si lo hubo. Las entradas viejas no se editan.
 - Nada se publica hasta que yo escriba «publica».
 - Lo que se puede decidir con reglas no se le pregunta a la IA.
 - Todo mensaje que vea el usuario final va en español y escrito a mano.
 
 <span class="k">Fase 0 · Entender.</span> Resume en 10 líneas qué vas a construir y qué cuentas y programas necesito (sección 3 del kit). Hazme máximo 3 preguntas: el nombre de mi herramienta, el país por defecto y si uso el diseño del kit o uno propio.
 
-<span class="k">Fase 1 · Documentos.</span> Crea docs/ con 00-BRIEF, 01-PLAN, 02-ARQUITECTURA, 03-SEGURIDAD, 04-TOKENS y 05-PUESTA-AL-AIRE, cada uno de una página y sacado del kit, y un CLAUDE.md en la raíz con una tabla «Si vas a… / Lee». Todavía sin código.
+<span class="k">Fase 1 · La base: documentos, memoria y llaves.</span> Crea en la raíz CLAUDE.md (la tabla «Si vas a… / Lee», las reglas de las llaves y las reglas que no se rompen) y MEMORY.md con sus cuatro partes y la entrada H01 (plantillas en la sección 10). Crea docs/ con 00-BRIEF, 01-PLAN, 02-ARQUITECTURA, 03-SEGURIDAD, 04-TOKENS y 05-PUESTA-AL-AIRE, cada uno de una página y sacado del kit. Crea app/ solo con package.json, .gitignore, .dev.vars.ejemplo sin valores y revisar-llaves.mjs (sección 10). Todavía sin más código. Para probarlo: dentro de app, npm run llaves debe decir «Llaves en orden».
 
 <span class="k">Fase 2 · Esqueleto en modo prueba.</span> Crea app/ como un Cloudflare Worker con archivos estáticos (sección 10), con MODO_PRUEBA=1: el flujo completo funciona con respuestas fijas y sin gastar. Para probarlo: npm install, npm run dev y abrir http://localhost:8787.
 
@@ -260,9 +275,9 @@ footer{padding:0 0 48px;font-size:14px;color:var(--tenue)}
 
 <span class="k">Fase 6 · Con la IA de verdad.</span> Me avisas cuándo pegar mi llave en app/.dev.vars (sin mostrarla), pasas a MODO_PRUEBA=0 y revisamos 3 sitios reales que yo te dé. Compara lo que veas con la sección 12 (errores conocidos).
 
-<span class="k">Fase 7 · Seguridad.</span> Revisa la sección 4 punto por punto y deja una prueba automática por cada arreglo.
+<span class="k">Fase 7 · Seguridad.</span> Revisa la sección 4 punto por punto y deja una prueba automática por cada arreglo. Corre npm run llaves y revisa que MEMORY.md tenga una entrada por cada cambio hecho hasta aquí.
 
-<span class="k">Fase 8 · En línea.</span> Prepara desplegar.sh y dime, paso a paso, lo que tengo que hacer yo en Cloudflare (sección 11). Publicas solo cuando yo diga «publica»; después probamos juntos la dirección pública.</pre></div>
+<span class="k">Fase 8 · En línea.</span> Prepara desplegar.sh (que corre npm test y npm run llaves antes de publicar y se detiene si alguno falla) y dime, paso a paso, lo que tengo que hacer yo en Cloudflare (sección 11). Publicas solo cuando yo diga «publica»; después probamos juntos la dirección pública.</pre></div>
   <div class="idea"><b>¿Por qué fases y no «hazme la herramienta»?</b> Porque si le pides todo de una vez, la IA adivina, y lo que adivina no lo puedes revisar. Con fases cortas ves cada pieza funcionando antes de seguir, y los errores salen cuando todavía son baratos.</div>
 </section>
 
@@ -324,8 +339,122 @@ footer{padding:0 0 48px;font-size:14px;color:var(--tenue)}
 
 <div class="separa"><span class="chip"><i></i>Así la construí, fase por fase</span></div>
 
-<section id="f1">
+<section id="base">
   <p class="num g">01</p>
+  <h2>La base: CLAUDE.md, MEMORY.md y las llaves protegidas</h2>
+  <p>Antes del brief y antes de la primera línea de código, el proyecto arranca con dos documentos y una revisión. El agente de IA no recuerda nada entre una sesión y la siguiente: estos archivos son su memoria, y también la tuya.</p>
+  <div class="flujo">
+    <div class="paso"><span class="n g">1</span><span><b>CLAUDE.md, el mapa.</b> Qué leer para cada tarea, las reglas de las llaves y las reglas que no se rompen. <small>Cambia poco. Es lo primero que lee el agente en cada sesión.</small></span></div>
+    <div class="paso"><span class="n g">2</span><span><b>MEMORY.md, la memoria.</b> Cómo está hoy la herramienta, qué se decidió, qué se aprendió y todo lo que cambió para llegar ahí. <small>Crece con cada cambio.</small></span></div>
+    <div class="paso reglas"><span class="n">3</span><span><b>npm run llaves, el seguro.</b> La revisión que confirma que ninguna llave salió de su archivo. <small>Se arma antes de tener la primera llave.</small></span></div>
+  </div>
+
+  <h3>La estructura</h3>
+  <div class="ventana fija"><div class="barra"><i></i><i></i><i></i><em>mi-herramienta/</em></div><pre>  CLAUDE.md     <span class="c">el mapa y las reglas</span>
+  MEMORY.md     <span class="c">la memoria del proyecto</span>
+  KIT-TE-RECOMIENDAN.md  <span class="c">el kit</span>
+<span class="k">▸ docs/</span>       <span class="c">para decidir</span>
+    00-BRIEF.md  01-PLAN.md
+    02-ARQUITECTURA.md  03-SEGURIDAD.md
+    04-TOKENS.md  05-PUESTA-AL-AIRE.md
+<span class="k">▸ app/</span>        <span class="c">para construir</span>
+    src/  public/  test/
+    .dev.vars           <span class="c">las llaves</span>
+    .dev.vars.ejemplo   <span class="c">sin valores</span>
+    revisar-llaves.mjs  <span class="c">npm run llaves</span>
+<span class="k">▸ corridas/</span>   <span class="c">cada prueba real</span></pre></div>
+
+  <h3>CLAUDE.md: el mapa</h3>
+  <p>Una tabla de «si vas a hacer esto, lee aquello» evita que el agente relea todo el proyecto en cada tarea: gasta menos y se equivoca menos. Y las reglas van escritas ahí porque es el único archivo que lee siempre.</p>
+  <div class="ventana fija larga"><div class="barra"><i></i><i></i><i></i><em>CLAUDE.md</em><button class="copiar">Copiar</button></div><pre><span class="k"># Mi herramienta · contexto para el agente</span>
+
+Qué es, en dos líneas. El estado al día
+vive en MEMORY.md.
+
+<span class="k">## Lee solo lo que necesites</span>
+
+| Si vas a…                  | Lee                       |
+|----------------------------|---------------------------|
+| saber cómo está hoy        | MEMORY.md                 |
+| entender qué es y qué no   | docs/00-BRIEF.md          |
+| saber en qué fase va       | docs/01-PLAN.md           |
+| tocar el código            | docs/02-ARQUITECTURA.md   |
+| tocar llaves o límites     | docs/03-SEGURIDAD.md      |
+| cambiar las preguntas      | docs/04-TOKENS.md         |
+| publicar                   | docs/05-PUESTA-AL-AIRE.md |
+
+<span class="k">## Llaves: reglas de seguridad</span>
+- Las llaves las saca y las pega la
+  persona. Nunca se piden por el chat,
+  nunca se escriben, nunca se muestran.
+- Viven solo en app/.dev.vars (permisos
+  600, fuera de git) y, en línea, como
+  secretos.
+- El archivo de llaves se lee como texto.
+  Nunca source, cat ni echo.
+- Antes de cada commit y de publicar:
+  npm run llaves. Si falla, no se sube.
+- Si una llave se escapó: se revoca ese
+  mismo día y se anota en MEMORY.md.
+
+<span class="k">## Memoria: cada cambio se anota</span>
+Con cada cambio, en el mismo turno, se
+actualiza MEMORY.md: el estado, una
+entrada nueva arriba del historial (qué,
+por qué y dónde) y el aprendizaje si lo
+hubo. Las entradas viejas no se editan.
+
+<span class="k">## Reglas que no se rompen</span>
+- La dirección de entrada se valida.
+- Lo que se decide con reglas no se le
+  pregunta a la IA.
+- Las preguntas libres van firmadas.
+- Costo cero. Publicar lo decido yo.</pre></div>
+
+  <h3>MEMORY.md: la memoria</h3>
+  <p>Tiene cuatro partes: el estado actual, las decisiones vigentes, los aprendizajes y el historial de cambios, del más reciente al más antiguo. La regla es una sola: <b>con cada cambio, en el mismo turno, se anota.</b> Se reescribe el estado, se agrega una entrada arriba del historial y se suma el aprendizaje si lo hubo. Las entradas viejas no se tocan: una corrección es una entrada nueva.</p>
+  <div class="ventana larga"><div class="barra"><i></i><i></i><i></i><em>MEMORY.md</em><button class="copiar">Copiar</button></div><pre><span class="k"># MEMORY · Mi herramienta</span>
+
+Versión de este documento: 1 · fecha
+
+<span class="k">## 1. Estado actual</span>
+- Dónde corre y en qué dirección.
+- Qué tiene: cuántas llamadas hace, cuántas pruebas pasan, qué IA usa.
+- Qué tan bien acierta, con el número.
+- Llaves: dónde viven y si npm run llaves pasa.
+- Qué sigue abierto.
+
+<span class="k">## 2. Decisiones vigentes</span>
+1. Cada decisión que no se discute de nuevo, con su motivo.
+
+<span class="k">## 3. Aprendizajes</span>
+1. Lo que salió mal y la regla que dejó.
+
+<span class="k">## 4. Historial de cambios</span>
+Del más reciente al más antiguo.
+
+<span class="k">### H02 · fecha y hora · título corto</span>
+- Qué: lo que cambió.
+- Por qué: el motivo o el fallo que lo causó.
+- Dónde: los archivos.
+
+<span class="k">### H01 · fecha y hora · Arranque</span>
+- Qué: carpeta, CLAUDE.md, MEMORY.md, documentos y revisor de llaves.
+- Por qué: empezar con memoria y con las llaves protegidas desde el primer día.
+- Dónde: raíz, docs/ y app/.</pre></div>
+  <p>Así se ve una entrada real de mi construcción:</p>
+  <div class="ventana"><div class="barra"><i></i><i></i><i></i><em>MEMORY.md · una entrada</em></div><pre><span class="k">### H02 · 29-oct-2026 · El «6 de 8» falso</span>
+- Qué: la marca se quita de su propia lista de competidores, con una prueba automática que lo cuida.
+- Por qué: la primera prueba dio «6 de 8» porque la marca estaba en la lista de competidores y se contaba dos veces.
+- Dónde: app/src/worker.js, app/src/analisis.js, app/test/reglas.test.js.</pre></div>
+  <div class="idea"><b>Ábrelo el primer día.</b> Yo lo armé tarde: reconstruí el historial dos semanas después, a partir de los apuntes de la construcción. Y encontré cuatro documentos que decían algo distinto del código, entre ellos uno que todavía nombraba un modelo de IA que la herramienta dejó de usar. Con una entrada por cambio, el estado se corrige en el mismo momento en que cambia.</div>
+
+  <h3>El prompt</h3>
+  <div class="ventana"><div class="barra"><i></i><i></i><i></i><em>prompt · fase 1</em><button class="copiar">Copiar</button></div><pre>Antes de escribir código, arma la base del proyecto. 1) Crea CLAUDE.md en la raíz con una tabla «Si vas a… / Lee», una sección de reglas de seguridad de las llaves y las reglas que no se rompen. 2) Crea MEMORY.md con cuatro partes (estado actual, decisiones vigentes, aprendizajes e historial de cambios, del más reciente al más antiguo) y la entrada H01 con lo que acabas de hacer. Desde ahora, con cada cambio y en el mismo turno, actualizas MEMORY.md: reescribes el estado, agregas una entrada nueva arriba del historial (qué, por qué y dónde) y sumas el aprendizaje si lo hubo; las entradas viejas no se editan. Al empezar cada sesión lo lees antes de tocar nada. 3) Crea app/ con package.json, un .gitignore que ignore .dev.vars, un .dev.vars.ejemplo con los nombres de las variables y sin valores, y revisar-llaves.mjs con el comando npm run llaves: debe fallar si .dev.vars tiene permisos más abiertos que 600, si el ejemplo trae valores o si cualquier archivo del proyecto contiene el valor real de una llave o un texto con forma de llave, y nunca debe imprimir el valor. Reglas para ti: nunca me pidas una llave por el chat, nunca hagas source, cat ni echo del archivo de llaves, y corre npm run llaves antes de cada commit y de publicar. Para terminar, muéstrame que npm run llaves dice «Llaves en orden» y que falla con una llave falsa en una carpeta de prueba.</pre></div>
+</section>
+
+<section id="f1">
+  <p class="num g">02</p>
   <h2>El brief, en una página</h2>
   <p>Antes de pedirle código a la IA, escribe qué va a hacer la herramienta. Si no cabe en una página, todavía no está claro. Esta página es la que vas a releer cada vez que dudes.</p>
   <h3>La plantilla</h3>
@@ -349,40 +478,9 @@ La dirección del sitio. Todo lo demás se deduce.
 <span class="k">## Método</span>
 Los pasos, en lenguaje de cliente.</pre></div>
   <h3>El prompt</h3>
-  <div class="ventana"><div class="barra"><i></i><i></i><i></i><em>prompt · fase 1</em><button class="copiar">Copiar</button></div><pre>Quiero construir una herramienta web gratuita que mida si la IA recomienda un negocio cuando un cliente le pregunta por lo que vende. Antes de escribir código, ayúdame a escribir el brief en una sola página con estas partes: problema, objetivo medible, cómo sé que la herramienta funciona, qué NO hace, entrada única y método. La entrada debe ser solo la dirección del sitio. Si te falta algo, hazme máximo 3 preguntas. Guárdalo en docs/00-BRIEF.md.</pre></div>
-</section>
-
-<section id="f2">
-  <p class="num g">02</p>
-  <h2>La estructura del proyecto</h2>
-  <p>Dos carpetas, cada una con su trabajo, y un archivo que le dice a la IA qué leer. Así el agente no relee todo el proyecto en cada tarea: gasta menos tiempo y menos plata, y se equivoca menos.</p>
-  <div class="ventana fija"><div class="barra"><i></i><i></i><i></i><em>mi-herramienta/</em></div><pre><span class="k">▸ docs/</span>        <span class="c">para decidir</span>
-    00-BRIEF.md  01-PLAN.md  02-ARQUITECTURA.md
-    03-SEGURIDAD.md  04-TOKENS.md  05-PUESTA-AL-AIRE.md
-<span class="k">▸ app/</span>         <span class="c">para construir (el código)</span>
-    src/  public/  test/
-  CLAUDE.md      <span class="c">el mapa para la IA</span>
-  KIT-TE-RECOMIENDAN.md   <span class="c">la especificación</span></pre></div>
-  <h3>El mapa para la IA</h3>
-  <div class="ventana fija"><div class="barra"><i></i><i></i><i></i><em>CLAUDE.md</em><button class="copiar">Copiar</button></div><pre><span class="k"># Mi herramienta · contexto para el agente</span>
-
-Lee solo lo que necesites:
-
-| Si vas a…                       | Lee                       |
-|---------------------------------|---------------------------|
-| entender qué es y qué no        | docs/00-BRIEF.md          |
-| saber en qué fase va            | docs/01-PLAN.md           |
-| tocar el código                 | docs/02-ARQUITECTURA.md   |
-| tocar llaves, límites o la URL  | docs/03-SEGURIDAD.md      |
-| cambiar las preguntas a la IA   | docs/04-TOKENS.md         |
-| publicar                        | docs/05-PUESTA-AL-AIRE.md |
-
-<span class="k">## Reglas que no se rompen</span>
-- La llave de la IA nunca va en el código ni en la página.
-- Lo que se puede decidir con reglas no se le pregunta a la IA.
-- Publicar lo decido yo.</pre></div>
-  <h3>El prompt</h3>
-  <div class="ventana"><div class="barra"><i></i><i></i><i></i><em>prompt · fase 2</em><button class="copiar">Copiar</button></div><pre>Lee docs/00-BRIEF.md. Crea esta estructura: docs/ para las decisiones, app/ para el código (src, public, test) y un CLAUDE.md en la raíz con una tabla "Si vas a… / Lee" que apunte a cada documento. Escribe 01-PLAN.md con fases cortas, donde cada fase termine en algo que se pueda ver y diga cómo sé que terminó. Escribe también 02-ARQUITECTURA, 03-SEGURIDAD y 04-TOKENS, de una página cada uno. Todavía no escribas código.</pre></div>
+  <div class="ventana"><div class="barra"><i></i><i></i><i></i><em>prompt · fase 2</em><button class="copiar">Copiar</button></div><pre>Quiero construir una herramienta web gratuita que mida si la IA recomienda un negocio cuando un cliente le pregunta por lo que vende. Antes de escribir código, ayúdame a escribir el brief en una sola página con estas partes: problema, objetivo medible, cómo sé que la herramienta funciona, qué NO hace, entrada única y método. La entrada debe ser solo la dirección del sitio. Si te falta algo, hazme máximo 3 preguntas. Guárdalo en docs/00-BRIEF.md.</pre></div>
+  <h3>Con el brief aprobado, los documentos</h3>
+  <div class="ventana"><div class="barra"><i></i><i></i><i></i><em>prompt · fase 2 · documentos</em><button class="copiar">Copiar</button></div><pre>Lee docs/00-BRIEF.md. Escribe 01-PLAN.md con fases cortas, donde cada fase termine en algo que se pueda ver y diga cómo sé que terminó. Escribe también 02-ARQUITECTURA, 03-SEGURIDAD y 04-TOKENS, de una página cada uno. Revisa que la tabla «Si vas a… / Lee» de CLAUDE.md apunte a cada documento y anota el cambio en MEMORY.md con una entrada nueva. Todavía no escribas código.</pre></div>
 </section>
 
 <section id="f3">
@@ -444,6 +542,8 @@ Lee solo lo que necesites:
     <li><input type="checkbox" id="s4"><label for="s4"><b>Filtro contra robots</b> (Turnstile de Cloudflare, gratis) antes de gastar llamadas.</label></li>
     <li><input type="checkbox" id="s5"><label for="s5"><b>La URL de entrada se valida,</b> también después de cada redirección: nada de IPs, localhost ni puertos raros, para que nadie use tu herramienta como puente hacia direcciones internas.</label></li>
     <li><input type="checkbox" id="s6"><label for="s6"><b>Nada personal:</b> no pides correo y no guardas IPs.</label></li>
+    <li><input type="checkbox" id="s8"><label for="s8"><b><code>npm run llaves</code> pasa</b> antes de cada commit y antes de publicar, y falla cuando le pones una llave falsa en una carpeta de prueba.</label></li>
+    <li><input type="checkbox" id="s9"><label for="s9"><b><code>MEMORY.md</code> está al día:</b> el estado dice cómo quedó y hay una entrada por cada cambio.</label></li>
     <li><input type="checkbox" id="s7"><label for="s7"><b>Errores claros:</b> la persona nunca ve un error técnico ni en inglés, y el detalle del error de Google nunca se le muestra.</label></li>
   </ul>
   <div class="idea"><b>La trampa del «ChatGPT gratis».</b> Si tu herramienta acepta cualquier pregunta que mande el navegador, alguien la puede usar para hacerle a la IA lo que quiera, con tu cuota. La solución: las preguntas libres las firma el servidor y las demás salen de plantillas. Lo que no venga firmado, no pasa.</div>
