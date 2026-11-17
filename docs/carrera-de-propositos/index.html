@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La carrera de los propósitos</title>
+<meta name="description" content="Escribe tus propósitos de este año, ponle a cada uno las semanas que necesita y mira cuáles llegan al 31 de diciembre. Todo corre en tu navegador: lo que escribes no sale de tu equipo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Graduate&family=Kalam:wght@400;700&family=Nunito+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--papel:#F3EFE6;--tinta:#1B1B19;--carbon:#34332F;--gris:#6E6A61;--lino:#E8E0CF;--tomate:#E4572E;--bosque:#2F5D50}
+*{box-sizing:border-box}
+body{margin:0;background:var(--papel);color:var(--tinta);font-family:"Avenir Next","Nunito Sans",system-ui,sans-serif;font-size:17px;line-height:1.45}
+main{max-width:920px;margin:0 auto;padding:28px 16px 48px}
+.etq{font-weight:600;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--gris)}
+h1{font-weight:800;font-size:clamp(28px,5vw,46px);line-height:1.05;margin:8px 0 6px;max-width:17ch}
+.quedan{display:flex;align-items:baseline;gap:12px;margin:10px 0 16px;flex-wrap:wrap}
+.quedan b{font-family:"Graduate",serif;font-weight:400;font-size:60px;line-height:1;color:var(--tomate)}
+.mano{font-family:"Kalam",cursive;font-size:22px;color:var(--bosque);transform:rotate(-1.5deg);display:inline-block}
+textarea{width:100%;min-height:118px;font:inherit;padding:12px;border:2px dashed var(--carbon);border-radius:6px;background:#fffb;color:var(--tinta)}
+button{font:inherit;font-weight:800;background:var(--tinta);color:var(--papel);border:0;border-radius:4px;padding:12px 20px;margin-top:10px;cursor:pointer}
+#pista{width:100%;aspect-ratio:16/10;max-height:460px;margin-top:18px;border-radius:8px;background:var(--lino);touch-action:none;display:block}
+#pistaCaja{position:relative;margin-top:18px;overflow:hidden;border-radius:8px}#pistaCaja #pista{margin-top:0}
+#rotulos{position:absolute;inset:0;pointer-events:none}
+.rot{position:absolute;left:0;top:0;white-space:nowrap;max-width:62%;overflow:hidden;text-overflow:ellipsis;font-weight:800;font-size:14px;line-height:1.2;padding:3px 8px;background:#F3EFE6F0;border:2px solid var(--tinta);border-radius:3px;color:var(--tinta)}
+@media (max-width:640px){#pista{aspect-ratio:1/1;max-height:none}}
+.ayuda{color:var(--gris);font-size:14px;margin:8px 0 0}
+ul{list-style:none;margin:18px 0 0;padding:0}
+li{border-top:1px solid var(--lino);padding:12px 0;display:grid;grid-template-columns:1fr;gap:6px}
+li strong{font-weight:800}
+.veredicto{font-family:"Kalam",cursive;font-size:20px}
+.llega{color:var(--bosque)}.nollega{color:var(--tomate)}
+input[type=range]{width:100%;accent-color:var(--tinta)}
+.fila{display:flex;gap:10px;align-items:center;color:var(--gris);font-size:14px}
+.fila span{min-width:150px}
+footer{margin-top:28px;color:var(--gris);font-size:14px}
+.firma{font-family:"Kalam",cursive;font-size:21px;color:var(--tinta);margin-top:10px}
+</style></head><body><main>
+<div class="etq">Para el día a día</div>
+<h1>¿Cuántos propósitos de este año te quedaron pendientes?</h1>
+<div class="quedan"><b id="sem">0</b><span id="semtxt">semanas para el 31 de diciembre</span><span class="mano" id="nota"></span></div>
+<textarea id="lista" aria-label="Tus propósitos, uno por renglón" placeholder="Escribe tus propósitos, uno por renglón"></textarea>
+<button id="ir">A correr</button>
+<div id="pistaCaja"><canvas id="pista" aria-label="Pista de carreras con un corredor por propósito"></canvas><div id="rotulos" aria-hidden="true"></div></div>
+<p class="ayuda">Cada propósito es un corredor. Entre más semanas necesita, más pesado. Arrástralo hacia abajo para achicarlo, o mueve su barra, y mira si ahora sí llega.</p>
+<ul id="res"></ul>
+<footer>La herramienta no adivina cuánto tarda cada propósito: eso lo pones tú. Lo que hace es mostrarte, sin compasión, cuáles caben en lo que queda del año.
+<div class="firma">Soy Jonathan, y construyo herramientas con IA a la medida.</div></footer>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+  var Q=new URLSearchParams(location.search), GRABAR=Q.has('grabar');
+  var hoy=new Date(), qh=/^(\d{4})-(\d{2})-(\d{2})$/.exec(Q.get('hoy')||''); if(qh) hoy=new Date(+qh[1],+qh[2]-1,+qh[3],8,0,0);
+  var fin=new Date(hoy.getFullYear(),11,31,23,59,59);
+  var dias=Math.max(0,Math.floor((fin-hoy)/864e5)), semanas=Math.max(0.2,dias/7);
+  document.getElementById('sem').textContent=Math.floor(dias/7);
+  document.getElementById('semtxt').textContent='semanas y '+(dias%7)+' días para el 31 de diciembre';
+  var lista=document.getElementById('lista'), res=document.getElementById('res'), nota=document.getElementById('nota');
+  var rotulos=document.getElementById('rotulos'), cv=document.getElementById('pista'), LARGO=20, corredores=[], t0=null;
+  if(!window.THREE){ nota.textContent='No cargó la pista en 3D; la lista de abajo sí funciona.'; }
+  var T=window.THREE, esc, cam, ren, rayo, raton, agarrado=null, y0=0, s0=0;
+  var COL=[0x1B1B19,0x2F5D50,0x34332F,0x6E6A61,0x2F5D50,0x1B1B19];
+  function montar(){
+    if(!T) return;
+    esc=new T.Scene(); cam=new T.PerspectiveCamera(42,1,0.1,200);
+    ren=new T.WebGLRenderer({canvas:cv,antialias:true,alpha:true}); ren.setPixelRatio(GRABAR?2:Math.min(2,window.devicePixelRatio||1));
+    esc.add(new T.HemisphereLight(0xffffff,0xcfc6b2,1.05)); var sol=new T.DirectionalLight(0xffffff,0.55); sol.position.set(6,12,8); esc.add(sol);
+    rayo=new T.Raycaster(); raton=new T.Vector2(); medir(); window.addEventListener('resize',medir);
+    cv.addEventListener('pointerdown',function(e){ var c=tocado(e); if(c){ agarrado=c; y0=e.clientY; s0=c.necesita; cv.setPointerCapture(e.pointerId);} });
+    cv.addEventListener('pointermove',function(e){ if(!agarrado) return; cambiar(agarrado, s0-(e.clientY-y0)/7); });
+    cv.addEventListener('pointerup',function(){ agarrado=null; });
+    pista(3);
+    if(!GRABAR) requestAnimationFrame(cuadro);
+  }
+  var anchoPista=6;
+  var VERTICAL=false;
+  function encuadrar(){ // aleja la cámara lo necesario para que quepa toda la pista, también en pantallas angostas
+    var v=cam.fov*Math.PI/360, h=Math.atan(Math.tan(v)*cam.aspect);
+    VERTICAL=cam.aspect<1.1;
+    if(VERTICAL){ // pantalla angosta: la pista se gira hacia la cámara, la salida queda arriba y la meta abajo, cerca de ti
+      var cv0=(window.__cam||[10,21,8.5]), e=Math.max(1,(anchoPista/2+1.2)/Math.tan(h)/14);
+      cam.position.set(LARGO+cv0[0]*e,cv0[1]*e,0); cam.lookAt(cv0[2],0,0); return; }
+    var d=Math.max((LARGO/2+2.2)/Math.tan(h),(anchoPista/2+3)/Math.tan(v));
+    cam.position.set(LARGO/2,d*0.62,d*0.82); cam.lookAt(LARGO/2,0.4,0); }
+  function medir(){ var w=cv.clientWidth,h=cv.clientHeight; ren.setSize(w,h,false); cam.aspect=w/h; cam.updateProjectionMatrix(); encuadrar(); }
+  function tocado(e){ var r=cv.getBoundingClientRect(); raton.set(((e.clientX-r.left)/r.width)*2-1,-((e.clientY-r.top)/r.height)*2+1); rayo.setFromCamera(raton,cam);
+    var hit=rayo.intersectObjects(corredores.map(function(c){return c.g;}),true)[0]; if(!hit) return null;
+    return corredores.filter(function(c){ var o=hit.object; while(o){ if(o===c.g) return true; o=o.parent; } return false; })[0]; }
+  function pista(n){
+    rotulos.innerHTML='';
+    while(esc.children.length>2) esc.remove(esc.children[2]);
+    var ancho=Math.max(4,n*(VERTICAL?2.3:1.7));
+    var suelo=new T.Mesh(new T.BoxGeometry(LARGO+3,0.2,ancho+1),new T.MeshLambertMaterial({color:0xE8E0CF})); suelo.position.set(LARGO/2-0.5,-0.1,0); esc.add(suelo);
+    for(var i=0;i<=n;i++){ var l=new T.Mesh(new T.BoxGeometry(LARGO,0.02,0.05),new T.MeshBasicMaterial({color:0x34332F})); l.position.set(LARGO/2,0.02,-ancho/2+i*(ancho/n)); esc.add(l); }
+    for(var s=1;s<Math.floor(semanas)+1;s++){ var m=new T.Mesh(new T.BoxGeometry(0.04,0.02,ancho),new T.MeshBasicMaterial({color:0xbdb4a0})); m.position.set(LARGO*s/semanas,0.021,0); if(m.position.x<LARGO) esc.add(m); }
+    var meta=new T.Mesh(new T.BoxGeometry(0.28,0.03,ancho),new T.MeshBasicMaterial({color:0xE4572E})); meta.position.set(LARGO,0.03,0); esc.add(meta);
+    var palo=new T.Mesh(new T.CylinderGeometry(0.05,0.05,3.2,8),new T.MeshLambertMaterial({color:0x1B1B19})); palo.position.set(LARGO,1.6,-ancho/2-0.2); esc.add(palo);
+    var bandera=new T.Mesh(new T.BoxGeometry(0.04,0.8,1.3),new T.MeshLambertMaterial({color:0xE4572E})); bandera.position.set(LARGO,2.75,-ancho/2+0.45); esc.add(bandera);
+    anchoPista=ancho; encuadrar();
+    return ancho;
+  }
+  function muneco(color){ var g=new T.Group(), m=new T.MeshLambertMaterial({color:color});
+    var cuerpo=new T.Mesh(new T.CylinderGeometry(0.34,0.42,1.0,14),m); cuerpo.position.y=0.75; g.add(cuerpo);
+    var cabeza=new T.Mesh(new T.SphereGeometry(0.3,16,12),m); cabeza.position.y=1.55; g.add(cabeza);
+    var p1=new T.Mesh(new T.BoxGeometry(0.16,0.5,0.16),m), p2=p1.clone(); p1.position.set(0,0.25,-0.14); p2.position.set(0,0.25,0.14); g.add(p1); g.add(p2); g.userData.p=[p1,p2]; return g; }
+  var carrera=false;
+  function armar(correr){ // sin correr: los corredores esperan en la salida mientras escribes
+    carrera=correr===true;
+    var txt=lista.value.split('\n').map(function(x){return x.trim();}).filter(Boolean).slice(0,6);
+    var viejos={}; corredores.forEach(function(c){ viejos[c.txt]=c.necesita; });
+    corredores=txt.map(function(t,i){ return {txt:t,necesita:viejos[t]||8,g:null,i:i}; });
+    res.innerHTML=''; if(!txt.length){ if(T) pista(3); nota.textContent=carrera?'Escribe al menos uno, sin pena.':''; return; }
+    var ancho=T?pista(txt.length):0;
+    corredores.forEach(function(c,i){
+      if(T){ c.g=muneco(COL[i%COL.length]); c.rot=document.createElement('div'); c.rot.className='rot'; c.rot.textContent=c.txt; rotulos.appendChild(c.rot); c.z=(VERTICAL?1:-1)*(-ancho/2+(i+0.5)*(ancho/txt.length)); c.g.position.set(0,0,c.z); esc.add(c.g); }
+      var li=document.createElement('li'), s=document.createElement('strong'); s.textContent=c.txt; li.appendChild(s);
+      var f=document.createElement('div'); f.className='fila'; var e=document.createElement('span'); var r=document.createElement('input'); r.type='range'; r.min=1; r.max=52; r.value=c.necesita; r.setAttribute('aria-label','Semanas que necesita: '+c.txt);
+      r.addEventListener('input',function(){ cambiar(c,+r.value); }); f.appendChild(e); f.appendChild(r); li.appendChild(f);
+      var v=document.createElement('div'); v.className='veredicto'; li.appendChild(v); res.appendChild(li); c.e=e; c.r=r; c.v=v; pintar(c);
+    });
+    t0=carrera?performance.now():Infinity; resumen();
+  }
+  function cambiar(c,n){ c.necesita=Math.max(1,Math.min(52,Math.round(n))); c.r.value=c.necesita; pintar(c); resumen(); }
+  function pintar(c){
+    c.frac=Math.min(1,semanas/c.necesita); c.e.textContent='Necesita '+c.necesita+(c.necesita===1?' semana':' semanas');
+    if(!carrera){ c.v.className='veredicto'; c.v.textContent=''; }
+    else if(c.frac>=1){ c.v.className='veredicto llega'; c.v.textContent='Llega. Primer paso: ponle día y hora esta misma semana.'; }
+    else{ var p=Math.max(5,Math.round(c.frac*100)); c.v.className='veredicto nollega'; c.v.textContent='Se queda sin aire: alcanza para el '+p+' %. O lo achicas a '+Math.max(1,Math.floor(semanas))+' semanas, o va para el otro año.'; }
+    if(c.g){ var k=(0.7+c.necesita/26)*(VERTICAL?1.35:1); c.g.scale.set(k,k,k); }
+  }
+  function resumen(){ if(!carrera){ nota.textContent=''; return; } var n=corredores.filter(function(c){return c.frac>=1;}).length; nota.textContent=n===0?'Pailas, ninguno llega así.':(n===corredores.length?'Todos llegan. ¿Seguro?':n+' de '+corredores.length+' llegan.'); }
+  function cuadro(ahora){ requestAnimationFrame(cuadro); dibujar(ahora); }
+  function dibujar(ahora){
+    if(!esc) return;
+    var a=t0===null?1:Math.max(0,Math.min(1,(ahora-t0)/2600)), suave=1-Math.pow(1-a,3);
+    corredores.forEach(function(c,i){ if(!c.g) return; var x=LARGO*c.frac*suave; c.g.position.x=x;
+      var corriendo=a>0&&a<1, paso=Math.sin(ahora/90+i);
+      if(a===0){ c.g.userData.p[0].rotation.z=0; c.g.userData.p[1].rotation.z=0; c.g.position.y=0; c.g.rotation.z=0; return; }
+      c.g.userData.p[0].rotation.z=corriendo?paso*0.7:0; c.g.userData.p[1].rotation.z=corriendo?-paso*0.7:0;
+      if(!corriendo&&c.frac>=1){ c.g.position.y=Math.abs(Math.sin(ahora/260+i))*0.5; c.g.rotation.z=0; }
+      else if(!corriendo){ c.g.position.y=0; c.g.rotation.z=-0.55+Math.sin(ahora/500+i)*0.05; }
+      else { c.g.position.y=Math.abs(paso)*0.12; c.g.rotation.z=-0.12; } });
+    ren.render(esc,cam); ubicarRotulos();
+  }
+  function ubicarRotulos(){ // el nombre encima de cada corredor; si dos se montan, el de atrás sube
+    var W=cv.clientWidth, H=cv.clientHeight, puestos=[], v=new T.Vector3();
+    corredores.filter(function(c){return c.rot;}).map(function(c){ v.set(c.g.position.x,c.g.position.y+2.0*c.g.scale.y,c.g.position.z).project(cam);
+      return {c:c,x:(v.x+1)/2*W,y:(1-v.y)/2*H,w:c.rot.offsetWidth,h:c.rot.offsetHeight}; })
+    .sort(function(a,b){return b.y-a.y;}).forEach(function(r){ var x=Math.max(2,Math.min(W-r.w-2,r.x-r.w/2)), y=r.y-r.h-4, otra=true;
+      while(otra){ otra=false; puestos.forEach(function(p){ if(x<p.x+p.w+3&&x+r.w+3>p.x&&y<p.y+p.h+2&&y+r.h+2>p.y){ y=p.y-r.h-3; otra=true; } }); }
+      y=Math.max(2,y); puestos.push({x:x,y:y,w:r.w,h:r.h}); r.c.rot.style.transform='translate('+x.toFixed(1)+'px,'+y.toFixed(1)+'px)'; });
+  }
+  document.getElementById('ir').addEventListener('click',function(){ armar(true); });
+  lista.addEventListener('input',function(){ armar(false); });
+  if(GRABAR) window.__grabar={ // solo con ?grabar: lo usa el montaje del video para pintar cuadro a cuadro
+    escribir:function(s){ lista.value=s; armar(false); }, correr:function(){ armar(true); }, enCarrera:function(){ return carrera; },
+    vaciar:function(){ corredores=[]; res.innerHTML=''; nota.textContent=''; if(T) pista(3); },
+    necesita:function(i,n){ if(corredores[i]) cambiar(corredores[i],n); },
+    dibujar:function(ms,inicio){ t0=inicio; dibujar(ms); },
+    pos:function(i){ var c=corredores[i]; if(!c||!c.g) return null; var r=cv.getBoundingClientRect(), v=new T.Vector3(); c.g.getWorldPosition(v); v.y+=0.9*c.g.scale.y; v.project(cam);
+      return {x:r.left+(v.x+1)/2*r.width, y:r.top+(1-v.y)/2*r.height, frac:c.frac}; },
+    lienzo:function(){ var r=cv.getBoundingClientRect(); return {x:r.left,y:r.top+window.scrollY,w:r.width,h:r.height}; } };
+  window.__estado=function(){ return corredores.map(function(c){ return {txt:c.txt,necesita:c.necesita,frac:+c.frac.toFixed(2),x:c.g?+c.g.position.x.toFixed(2):null}; }); };
+  montar();
+})();
+</script></body></html>
