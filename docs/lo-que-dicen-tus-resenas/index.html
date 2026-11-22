@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guía · La herramienta que lee tus reseñas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Graduate&family=Kalam:wght@400;700&family=Nunito+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--papel:#F3EFE6;--tinta:#1B1B19;--carbon:#34332F;--gris:#6E6A61;--lino:#E8E0CF;--tomate:#E4572E}
+*{box-sizing:border-box}
+body{margin:0;background:var(--papel);color:var(--tinta);font-family:"Avenir Next","Nunito Sans",system-ui,sans-serif;font-size:18px;line-height:1.55}
+main{max-width:760px;margin:0 auto;padding:44px 20px 64px}
+h1{font-weight:800;font-size:clamp(30px,5.2vw,46px);line-height:1.08;margin:0 0 10px}
+h2{font-weight:800;font-size:25px;line-height:1.15;margin:44px 0 10px;padding-top:16px;border-top:2px dashed var(--carbon)}
+.etq{font-weight:600;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--gris);margin:0 0 22px}
+p{margin:0 0 14px}
+ul,ol{margin:0 0 16px;padding-left:22px}
+li{margin-bottom:8px}
+table{width:100%;border-collapse:collapse;margin:8px 0 18px;font-size:16px}
+th{text-align:left;font-weight:600;color:var(--gris);font-size:13px;letter-spacing:.06em;text-transform:uppercase;padding:8px 10px 8px 0;border-bottom:1px solid var(--carbon)}
+td{padding:10px 10px 10px 0;border-bottom:1px solid var(--lino);vertical-align:top}
+code{font-family:ui-monospace,Menlo,monospace;font-size:.88em;background:var(--lino);padding:1px 5px;border-radius:3px}
+.boton{display:inline-block;background:var(--tomate);color:#fff;font-weight:800;text-decoration:none;padding:13px 22px;border-radius:4px}
+.firma{font-family:"Kalam",cursive;font-size:23px;margin-top:40px}
+@media (max-width:560px){table{font-size:15px}}
+</style></head><body><main>
+<h1>Guía para construir con IA la herramienta que lee tus reseñas y las de tu competencia</h1>
+<p class="etq">Herramienta 03 · Capítulo 4 de 4</p>
+<p>Las reseñas de Google se leen una por una y de a ratos, así que uno se queda con la última o con la más brava y no ve lo que se repite. Esta herramienta las lee todas juntas, las tuyas y las de dos o tres negocios parecidos, y te entrega tres listas: lo que más te critican, lo que le aplauden al otro y a ti no, y lo que el otro hace mal. Con eso te propone qué arreglar primero y qué servicios nuevos probar.</p>
+<p>La armé con Claude y sin programar. Aquí está el paso a paso para que hagas la tuya, y al final va el kit, que es el documento que le pegas a Claude para que la construya contigo.</p>
+<h2>Lo que salió cuando la probé</h2>
+<p>La probé con una barbería de Bogotá y dos vecinas: 794 reseñas, 570 con texto.</p>
+<table><thead><tr><th>Lo que mostró</th><th>El dato</th></tr></thead><tbody><tr><td>Reseñas malas sin respuesta</td><td>19 de 32. Contestaba casi todas hasta hace cuatro años y de las del último año, ninguna</td></tr><tr><td>La queja que más se repite</td><td>13 de 26 dicen que no les hicieron el corte que pidieron</td></tr><tr><td>Lo que le aplauden a la competencia</td><td>Servicios como el facial: 6,6 de cada 100 reseñas, contra 3,1</td></tr><tr><td>Lo que la competencia hace mal</td><td>8 quejas por cobros que el cliente no esperaba. A esta barbería, ninguna</td></tr><tr><td>Lo que a ella sí le aplauden</td><td>El precio: 15,5 de cada 100 reseñas, contra 4,9</td></tr></tbody></table>
+<p>De ahí salió una idea de servicio que no estaba en ningún lado: un paquete de corte, barba y facial con el precio cerrado y a la vista.</p>
+<p>Es una sola prueba, con tres negocios leídos en un día. Tómala como ejemplo de lo que la herramienta muestra, no como regla para tu negocio.</p>
+<h2>Lo que necesitas</h2>
+<ul><li>Claude, en la aplicación de escritorio o con la extensión del navegador, para que pueda abrir páginas y guardar archivos en una carpeta.</li><li>Una carpeta en tu computador.</li><li>El nombre de tu negocio en Google y el de dos o tres negocios parecidos y cercanos.</li></ul>
+<p>No necesitas ninguna llave ni pagar nada aparte de tu plan de Claude.</p>
+<h2>Paso 1 · La carpeta y sus dos documentos</h2>
+<p>Antes de leer una sola reseña, pídele a Claude que cree la carpeta de la herramienta con dos documentos. El kit ya trae la instrucción.</p>
+<ul><li><strong>CLAUDE.md</strong> dice qué es la herramienta, qué leer primero y las reglas que no se rompen. Es lo que Claude lee cada vez que vuelves a abrir el proyecto.</li><li><strong>MEMORY.md</strong> guarda el estado, las decisiones, lo que se aprendió y el historial de cambios. Cada vez que cambies algo, Claude lo anota ahí en ese mismo momento.</li></ul>
+<p>Parece papeleo, pero a la segunda semana ya nadie se acuerda de por qué algo quedó como quedó, y ese documento sí.</p>
+<h2>Paso 2 · Las reglas, antes de construir</h2>
+<p>Tres reglas van escritas en CLAUDE.md desde el primer día:</p>
+<ol><li><strong>Las llaves.</strong> Esta herramienta no usa ninguna. Si algún día le agregas algo que la pida, la llave va en un archivo fuera de la carpeta, nunca se pega en el chat y nunca se imprime. El kit trae un revisor que busca llaves en la carpeta y se detiene si encuentra una.</li><li><strong>Los datos de las personas.</strong> No se guarda quién escribió cada reseña. En el informe los negocios son «tu negocio» y «la competencia». El mismo revisor avisa si un archivo guardó nombres.</li><li><strong>El ritmo.</strong> Solo reseñas públicas, de tu negocio y dos o tres vecinos, leídas como las leería una persona. Leer en masa y de forma automática va contra las condiciones de Google.</li></ol>
+<h2>Paso 3 · Leer las reseñas</h2>
+<p>Antes de leer, confirma cuál es tu ficha. Un mismo local puede tener dos en Google, por ejemplo la barbería y su spa, y si Claude lee la que no es, el informe compara cosas distintas. La herramienta te muestra la ficha y espera tu sí.</p>
+<p>Hay dos maneras de leer y las dos sirven:</p>
+<ul><li><strong>Con el navegador.</strong> Claude abre la ficha pública de cada negocio en Google Maps, entra a las reseñas y baja hasta el final.</li><li><strong>Pegadas.</strong> Abres la ficha, bajas hasta el final de las reseñas, seleccionas todo, lo copias y se lo pegas a Claude, un negocio por mensaje. Es más lento, pero no depende de nada. Eso sí, al copiar no viajan las estrellas, porque en la página son dibujitos. La herramienta lo sabe: en vez de las reseñas malas cuenta las que traen alguna queja, y el informe lo dice.</li></ul>
+<p>De cada reseña se guardan las estrellas, hace cuánto se escribió, el texto y si el negocio la contestó.</p>
+<h2>Paso 4 · Ponerles tema, una por una</h2>
+<p>Aquí está la diferencia con contar palabras. Claude lee una muestra, define entre 8 y 14 temas de tu tipo de negocio y después lee cada reseña y le marca el tema y si es una queja, un aplauso o un pedido.</p>
+<p>También aparta las que no son de clientes. En mi prueba salieron cuatro: una de un exempleado, dos escritas por el propio negocio y una que hablaba de un libro.</p>
+<h2>Paso 5 · Cruzar y ver el informe</h2>
+<p>Un programa pequeño revisa que no quede ninguna reseña sin clasificar, cuenta por tema y arma el informe en una página. Compara por cada 100 reseñas, porque la competencia casi siempre suma más reseñas que tú.</p>
+<h2>Paso 6 · Las propuestas</h2>
+<p>Con el cruce en la mano, Claude escribe de tres a cinco mejoras y de una a tres ideas de servicio, cada una con el número que la sostiene. Si un número no la sostiene, la idea no entra.</p>
+<h2>Lo que se dañó mientras la armaba</h2>
+<ul><li><strong>Comparó mal.</strong> La primera versión comparaba conteos, y dos negocios juntos siempre tienen más reseñas que uno. Tocó pasar todo a «por cada 100 reseñas».</li><li><strong>Corrió incompleta.</strong> El cruce funcionó cuando todavía faltaba clasificar un negocio y dio un resultado que parecía bueno. Ahora no corre si falta algo.</li><li><strong>Repetía la misma frase</strong> del cliente debajo de varios temas. Ahora cada frase va con su tema.</li><li><strong>Las estrellas no se pegan.</strong> En una segunda prueba desde cero, quien hizo de dueño copió el panel de reseñas y las estrellas no venían. La herramienta se caía, y ahora trabaja con o sin ellas.</li><li><strong>Leyó la ficha que no era.</strong> Puse a alguien a armarla desde cero solo con el kit, con otra barbería. Llegó hasta el informe, pero el nombre tenía dos fichas y leyó la del spa. Por eso ahora la ficha se confirma antes de leer.</li></ul>
+<h2>Lo que no hace</h2>
+<ul><li>No lee tus mensajes privados ni nada que pida entrar con tu cuenta.</li><li>No responde las reseñas por ti. Te dice cuáles están sin contestar.</li><li>Solo ve lo que escribieron los clientes que dejaron reseña, que no son todos tus clientes. Para una investigación de mercado completa hace falta más.</li><li>Cómo se clasifica una reseña tiene criterio. Otra lectura puede dar números algo distintos en temas como el trato.</li></ul>
+<h2>El kit</h2>
+<p>El kit es un solo documento con todo lo que Claude necesita: la instrucción para planear, las reglas, la skill completa y los dos programas. Lo pegas en una conversación nueva con Claude y le dices el nombre de tu negocio.</p>
+<p><a class="boton" href="kit-lector-de-resenas.md" download>Descargar el kit</a></p>
+<p class="firma">Soy Jonathan, y construyo herramientas con IA a la medida.</p>
+</main></body></html>
